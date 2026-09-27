@@ -1,0 +1,160 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 4 Lab: Loops and Arrays at the Guthrie Theater</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">Let's build a show display for the Guthrie Theater, and get comfortable with two different kinds of loops.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction</h2>
+<p style="margin-bottom: 12px;">Today we'll build a simple Guthrie Theater show display using Razor Pages. You'll store a list of shows in an array, use a for loop to display them, and use a while loop to count how many of the titles are long. The Guthrie Theater in Minneapolis is one of the most prestigious regional theaters in the United States.</p>
+<img src="/content/2025/7428029-20275000469S/images/Guthrie-DSC_6711-1024x705-2438950245.jpg" alt="The Guthrie Theater building in Minneapolis" style="max-width: 100%; display: block; margin: 0 auto; border-radius: 10px;">
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: What Is Bootstrap?</h2>
+<p style="margin: 0;"><a rel="noopener" href="https://getbootstrap.com/" style="color: #1976d2; text-decoration: underline;" target="_blank">Bootstrap</a> is a popular free CSS framework that makes it easy to create good looking web pages without writing a lot of CSS code yourself. Instead of writing your own styles, you add Bootstrap classes to your HTML elements. For example, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">class="btn btn-primary"</code> creates a nice blue button. The <a rel="noopener" href="https://w3techs.com/technologies/comparison/cs-bootstrap" style="color: #1976d2; text-decoration: underline;" target="_blank">W3Techs CSS framework usage survey from September 2026</a> found that Bootstrap is used by 74.9% of all the websites whose CSS framework could be identified. It's already linked into today's starter project for you, so you can jump straight into the C# and Razor part of the lesson.</p>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Learning Objectives</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">While loops for counting through an array.</li>
+<li style="margin-bottom: 8px;">For loops for counting and displaying array contents.</li>
+<li style="margin-bottom: 8px;">Arrays for storing multiple values.</li>
+<li style="margin-bottom: 8px;">Razor Pages basics.</li>
+<li style="margin-bottom: 0;">Using Bootstrap for styling.</li>
+</ul>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start</h2>
+<p style="margin: 0;">You'll need your GitHub account and your one shared Codespace from the Module 1 Lab. If you haven't finished that lab yet, go do that first, then come back here.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Open the Module4Lab Folder</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in.</li>
+<li style="margin-bottom: 10px;">Click the hamburger menu, then <strong style="color: #59317C;">Codespaces</strong>, then click on the name of your existing Codespace to reopen it.</li>
+<li style="margin-bottom: 10px;">In the Explorer, expand the <strong style="color: #59317C;">Module4Lab</strong> folder, then the <strong style="color: #59317C;">Module4Lab</strong> project folder inside it. This starter project already has the boilerplate set up for you, the project file, Program.cs, the layout, and Bootstrap already linked in, so you can focus on the loops and the array.</li>
+<li style="margin-bottom: 0;">Open a terminal, and make sure you're inside the inner Module4Lab project folder before you continue.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Update Index.cshtml.cs (Page Model)</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Index.cshtml.cs</strong>. You'll see the class is already there with a TODO comment where you'll add your code. Replace that TODO with the following, right inside the class, above OnGet:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 15px; font-family: 'Courier New', monospace; font-size: 14px;"><code>public string[] Shows = { "Hamlet", "Cabaret", "Fences" };<br>public int LongTitleCount = 0;</code></div>
+<p style="margin-bottom: 12px;">Now replace the TODO comment inside OnGet with this while loop:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">int i = 0;
+while (i &lt; Shows.Length)
+{
+    if (Shows[i].Length &gt; 5)
+    {
+        LongTitleCount++;
+    }
+    i++;
+}</pre>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Update Index.cshtml (View)</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Index.cshtml</strong> and replace the placeholder paragraph with this code:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">&lt;div class="container mt-5"&gt;
+    &lt;h1 class="text-center"&gt;Guthrie Theater&lt;/h1&gt;
+
+    &lt;h5&gt;Current Shows:&lt;/h5&gt;
+    &lt;ul class="list-group"&gt;
+        @for (int i = 0; i &lt; Model.Shows.Length; i++)
+        {
+            &lt;li class="list-group-item"&gt;@(i + 1). @Model.Shows[i]&lt;/li&gt;
+        }
+    &lt;/ul&gt;
+    &lt;p class="mb-0 mt-3"&gt;Out of @Model.Shows.Length shows, @Model.LongTitleCount have a title longer than 5 letters.&lt;/p&gt;
+&lt;/div&gt;</pre>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Understanding the Code</h2>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #489FDF;">
+<p style="margin: 0 0 8px 0;"><strong style="color: #59317C;">Array:</strong> stores the three show titles.</p>
+<code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">public string[] Shows = { "Hamlet", "Cabaret", "Fences" };</code>
+</div>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #489FDF;">
+<p style="margin: 0 0 8px 0;"><strong style="color: #59317C;">For loop:</strong> walks through the array once to display every title.</p>
+<code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">@@for (int i = 0; i &lt; Model.Shows.Length; i++)</code>
+</div>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-bottom: 0; border: 1px solid #489FDF;">
+<p style="margin: 0 0 8px 0;"><strong style="color: #59317C;">While loop:</strong> walks through the array a different way, using its own counter variable that you increase by hand inside the loop, and counts titles longer than 5 letters.</p>
+<div style="background-color: #f4f4f4; padding: 10px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 13px;"><pre style="margin: 0;">int i = 0;
+while (i &lt; Shows.Length)
+{
+    if (Shows[i].Length &gt; 5)
+    {
+        LongTitleCount++;
+    }
+    i++;
+}</pre></div>
+</div>
+<p style="margin: 12px 0 0 0;"><strong style="color: #59317C;">container, mt-4, mb-3, card, list-group</strong> are all Bootstrap classes: container centers content and adds padding, mt/mb add margin to the top or bottom, card creates a bordered box, and list-group creates a nice looking list.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Run and Test Your Program</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab, hover over the forwarded address, and click the globe icon to open your app.</li>
+<li style="margin-bottom: 10px;">Confirm all three shows display in a numbered list.</li>
+<li style="margin-bottom: 0;">Confirm the count of long titles below the list looks right. Hamlet and Fences are 6 letters, Cabaret is 7, so the count should read 3.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Commit, Push, and Stop Your Codespace</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message and click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong>.</li>
+<li style="margin-bottom: 10px;">Check your GitHub repo in your browser to confirm your latest commit shows up there. If you don't see it, go back to Source Control in the Codespace and click Sync Changes again.</li>
+<li style="margin-bottom: 0;">Stop your Codespace: hamburger menu, <strong style="color: #59317C;">Codespaces</strong>, find yours, three dots, <strong style="color: #59317C;">Stop codespace</strong>. This matters because a Codespace that keeps running uses up your monthly free hours even when you aren't working in it.</li>
+</ol>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Optional stretch practice, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<p style="margin: 0;">Add two more real show titles to the Shows array. Then run the program again and check whether the long title count still makes sense. This uses the exact same skills as Part 1, editing the array and rereading the loop logic, nothing new to learn here.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">How to Submit Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the submission textbox at the bottom of this lab in D2L and click Submit.</li>
+</ol>
+</div>
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Copyright 2027 by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 8px;">Bootstrap statistic from the <a rel="noopener" href="https://w3techs.com/technologies/comparison/cs-bootstrap" style="color: #1976d2; text-decoration: underline;" target="_blank">W3Techs CSS framework usage survey, September 2026</a>.</li>
+<li style="margin-bottom: 8px;">Image of Guthrie Theater from Ecocities Emerging, licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</li>
+<li style="margin-bottom: 8px;">Bootstrap is free from getbootstrap.com.</li>
+<li style="margin-bottom: 0;">This work is licensed under Creative Commons BY-NC-SA 4.0. Educators at non-profits can reuse this lab as long as they give attribution to the author.</li>
+</ul>
+</div>
