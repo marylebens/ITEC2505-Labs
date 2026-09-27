@@ -1,0 +1,254 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 5 Lab: Object-Oriented Gaming</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">Let's build your first class, then teach a second class to inherit from it.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction <img src="/content/2025/7428029-20275000469S/images/Image-Octocat-Hub.jpg" alt="Octocat from GitHub" style="width: 100px; height: 100px; float: right; margin-left: 15px; border-radius: 8px;"></h2>
+<p style="margin-bottom: 12px;">Today you'll learn how to create your own class, and how to use inheritance to build a second class that inherits characteristics from the first. Being able to create your own classes is a big deal in programming. A class works like a blueprint or template for what any object of a specific kind needs to keep track of and be able to do.</p>
+<p style="margin-bottom: 0;">We'll build a simple <em>Player</em> class, the kind of thing you might use to represent a player in a game, and by the end you'll have a second class, <em>SuperPlayer</em>, that inherits everything Player can do and adds something extra.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start</h2>
+<p style="margin: 0;">You'll need your GitHub account and your one shared Codespace from the Module 1 Lab. If you haven't finished that lab yet, go do that first, then come back here. If you haven't signed up for the GitHub Student Developer Pack yet, this is still a good week to knock that out, on the <a rel="noopener" href="https://education.github.com/pack/join" style="color: #1976d2; text-decoration: underline;" target="_blank">Student Developer Pack signup page</a>.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Open the Module5Lab Folder</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in.</li>
+<li style="margin-bottom: 10px;">Click the hamburger menu, then <strong style="color: #59317C;">Codespaces</strong>, then click on the name of your existing Codespace to reopen it. You've already got the one Codespace you'll use all semester.</li>
+<li style="margin-bottom: 10px;">In the Explorer, expand the <strong style="color: #59317C;">Module5Lab</strong> folder, then the <strong style="color: #59317C;">Module5Lab</strong> project folder inside it. The project file and Program.cs are already set up, and Player.cs is already there waiting for you, with TODO comments marking where your code goes.</li>
+<li style="margin-bottom: 0;">Open a terminal, and make sure you're inside the inner Module5Lab project folder before you continue.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Add Instance Variables</h2>
+<p style="margin-bottom: 12px;">The first real step of building a class is giving it variables to hold its own data. One of the key traits of an object is that it keeps track of its own data, stored as variables that belong to the object. These are called attributes. We'll make each attribute <strong>private</strong>, meaning it can only be reached from inside the class. Code outside the class doesn't even know it exists. Keeping data private to the class is the OOP principle of encapsulation.</p>
+<p style="margin-bottom: 12px;">We're going to track the player's name, lives left, and current score. Open <strong style="color: #59317C;">Player.cs</strong> and replace the first TODO comment with these three attributes:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><pre style="margin: 0;">private string name;
+private int score;
+private int livesLeft;</pre></div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Add Constructors</h2>
+<p style="margin-bottom: 12px;">Now that we've got instance variables, let's add constructors. A constructor is a special method that creates a new instance of a Player object when it's called. Say a new player named Abdi logs into the game: our code calls the constructor to create a new Player object and assigns the name variable the value "Abdi". Constructors are <em>public</em> so code outside the class can call them to make a new Player object.</p>
+<p style="margin-bottom: 12px;">This class needs three constructors: one with no parameters, one that takes just a name, and one that takes both a name and a number of lives. Replace the second TODO comment with:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">public Player()
+{
+}
+
+public Player(string name)
+{
+    this.name = name;
+}
+
+public Player(string name, int startingLives)
+{
+    this.name = name;
+    livesLeft = startingLives;
+}</pre>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Add Methods</h2>
+<p style="margin-bottom: 12px;">Now let's add methods. A method is a block of code that defines an action an object can perform. A method's signature has an access level (public, private, and so on), a return type, a name, and any parameters it takes.</p>
+<p style="margin-bottom: 12px;">We'll add methods to get the player's name and score, add points to the score, "kill" the player (losing a life), and check how many lives are left. Replace the third TODO comment with:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">public int GetScore()
+{
+    return score;
+}
+
+public void AddPoints(int totalPoints)
+{
+    score += totalPoints;
+}
+
+public void Kill()
+{
+    // We make sure they can't get negative lives.
+    if (livesLeft > 0)
+    {
+        livesLeft--;
+    }
+}
+
+public int GetLivesLeft()
+{
+    return livesLeft;
+}</pre>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Test Your Player Class</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Program.cs</strong> and replace the TODO comment with this code:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">// Create a new player with one life and add points to the player's score
+Player player = new Player("Frankenstein", 1);
+player.AddPoints(100);
+
+// Display the player's score
+Console.WriteLine("Welcome to the game! Your score is: " + player.GetScore() +
+    " You have " + player.GetLivesLeft() + " lives left!");
+
+// Kill off the player's character
+player.Kill();
+
+// Let the player know their character was killed
+Console.WriteLine("An orc attacks you. Sorry, you were killed. You have "
+    + player.GetLivesLeft() + " lives left!");</pre>
+</div>
+<div style="background-color: #f5f8e0; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 0; font-weight: 600; color: #59317C;">Before you run it, predict the output.</p>
+<p style="margin: 10px 0 0 0;">Frankenstein starts with 1 life and 0 points, then gains 100 points, then gets killed. What will the two Console.WriteLine lines print? Write down your prediction before moving on to Step 6.</p>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Run and Check Your Prediction</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 0;">Compare the output to your prediction from Step 5. It should look like this:<br><img src="/content/2025/7428029-20275000469S/images/Image-Output2.png" alt="Program output showing the player's score and remaining lives" style="max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid #B2B4B2;"></li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 5 Lab Player class</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.<br><img src="/content/2025/7428029-20275000469S/images/Image-SourceControl.png" alt="Source control panel with a commit message typed in" style="max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid #B2B4B2;"></li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace Before You Move On</h2>
+<p style="margin-bottom: 12px;">This is the step people skip, and it's the one that causes the most trouble. A Codespace left running eats into your monthly free hours whether you're touching the keyboard or not, and running out mid-semester means you can't work on labs until your hours reset. Take the thirty seconds now.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 1 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 1 submission textbox in D2L and click Submit. You're not done yet, Part 2 is required too.</li>
+</ol>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">You'll build a whole new class yourself this time, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Background: Inheritance in C#</h2>
+<p style="margin-bottom: 12px;">Inheritance lets you create a new class that automatically gets the properties and methods of an existing class, then adds its own extras on top. The existing class is called the base class, and the new one is called the derived class. You mark a derived class with a colon and the base class name: <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">class SuperPlayer : Player</code></p>
+<p style="margin: 0;">A SuperPlayer built this way already has GetScore, AddPoints, Kill, and GetLivesLeft, without you writing any of that code again. You only need to write what's new.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Reopen Your Codespace and Create SuperPlayer.cs</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Reopen your Codespace and open the Module5Lab folder, same as Step 1.</li>
+<li style="margin-bottom: 10px;">In the Explorer, right click on the Module5Lab project folder and choose <strong style="color: #59317C;">New File</strong>. Name it <strong style="color: #59317C;">SuperPlayer.cs</strong>.</li>
+<li style="margin-bottom: 0;">This file is empty, unlike Player.cs. You're writing this one entirely yourself. Start it off with:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>namespace Module5Lab;</code></div>
+</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Write the SuperPlayer Class</h2>
+<p style="margin-bottom: 12px;">Below the namespace line, declare the class, following the same colon pattern from the Background section above, so SuperPlayer inherits from Player:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>internal class SuperPlayer : Player</code></div>
+<p style="margin-bottom: 12px;">Inside the class body, write a public method called <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">Fly</code> that takes no parameters and returns nothing, following the same method pattern from Step 4, that prints <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">"SuperPlayer is flying!"</code> to the console with Console.WriteLine.</p>
+<p style="margin: 0;">Then add a second method of your own choosing, something a SuperPlayer can do that a regular Player can't, like <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">Teleport</code> or <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">ShootFireballs</code>. It should also print a message describing what happened.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 10: Test Your SuperPlayer Class</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Program.cs</strong> and add this below your existing Player code:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">// Create a super player
+SuperPlayer superPlayer = new SuperPlayer();
+superPlayer.AddPoints(200);
+superPlayer.Fly(); // Demonstrate the additional ability
+Console.WriteLine($"SuperPlayer score: {superPlayer.GetScore()}, Lives left: {superPlayer.GetLivesLeft()}");</pre>
+</div>
+<p style="margin: 0;">Then call your second SuperPlayer method too, the one you invented in Step 9, so it actually runs and prints its message.</p>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Before You Run It: Predict the Output</p>
+<p style="margin: 0;">superPlayer starts with a fresh no-parameter constructor, so it starts at 0 lives, then gains 200 points, then flies, then does whatever your second ability does. What will AddPoints, Fly, your second method, and the final Console.WriteLine each print? Write down your prediction before running it in Step 11.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 11: Run and Check Your Prediction</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Confirm you see both the Player output from Part 1 and the new SuperPlayer output, including your invented ability's message.</li>
+<li style="margin-bottom: 0;">Notice that SuperPlayer could call GetScore and GetLivesLeft even though you never wrote those methods in SuperPlayer.cs. That's inheritance at work, those methods came along for free from Player.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 12: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 5 Lab SuperPlayer inheritance</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace</h2>
+<p style="margin-bottom: 12px;">Same reminder as Part 1, and it matters just as much here. Don't leave this running.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 2 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 2 submission textbox in D2L and click Submit. Congratulations on finishing Module 5.</li>
+</ol>
+</div>
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Screenshots and Octocat image created by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 0;">Lab instructions and code by Dr. Mary Lebens. This lab is licensed under Creative Commons BY-NC-SA 4.0 and can be reused by other educators at nonprofits as long as attribution is given.</li>
+</ul>
+</div>
