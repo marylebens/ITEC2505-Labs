@@ -63,30 +63,24 @@ else
 </div>
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
-<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Create the Razor Pages App</h2>
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Open the Module3Lab Folder</h2>
 <ol style="padding-left: 22px;">
 <li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in.</li>
 <li style="margin-bottom: 10px;">Click the hamburger menu, then <strong style="color: #59317C;">Codespaces</strong>, then click on the name of your existing Codespace to reopen it. You've already got the one Codespace you'll use all semester.</li>
-<li style="margin-bottom: 10px;">Once it's loaded, open a terminal and make sure you're inside the Module3Lab folder.</li>
-<li style="margin-bottom: 10px;">Type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet new razor -n Module3Lab</code> and press Enter. This creates a new Razor Pages project called Module3Lab.</li>
-<li style="margin-bottom: 10px;">In the Explorer, click on the Module3Lab folder to expand it, then expand the <strong style="color: #59317C;">Pages</strong> folder. You'll see Index.cshtml and Index.cshtml.cs, the two files we'll work with today.</li>
-<li style="margin-bottom: 0;">Type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">cd Module3Lab</code> in the terminal to move into the project folder.</li>
+<li style="margin-bottom: 10px;">In the Explorer, expand the <strong style="color: #59317C;">Module3Lab</strong> folder, then the <strong style="color: #59317C;">Module3Lab</strong> project folder inside it. This starter project already has the boilerplate set up for you, the project file, Program.cs, and the layout, so you can jump straight to the conditional logic.</li>
+<li style="margin-bottom: 10px;">Open a terminal, and make sure you're inside the inner Module3Lab project folder before you continue.</li>
+<li style="margin-bottom: 0;">Expand the <strong style="color: #59317C;">Pages</strong> folder. You'll see Index.cshtml and Index.cshtml.cs, the two files we'll work with today, each with a TODO comment marking where your code goes.</li>
 </ol>
 </div>
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
 <h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Build the HTML Display File (Index.cshtml)</h2>
 <ol style="padding-left: 22px;">
-<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">Index.cshtml</strong> and delete everything in the file.</li>
+<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">Pages/Index.cshtml</strong> and replace the placeholder paragraph with the code below.</li>
 <li style="margin-bottom: 0;">Type in this code:
+<p style="margin-bottom: 12px;">The @page, @model, and ViewData lines at the top of the file are already there for you. Just replace the placeholder paragraph below them with this:</p>
 <div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
-<pre style="margin: 0;">@page
-@model Module3Lab.Pages.IndexModel
-@{
-    ViewData["Title"] = "Taco &amp; Burrito Decision Maker";
-}
-
-&lt;h1&gt;Taco &amp; Burrito Decision Maker&lt;/h1&gt;
+<pre style="margin: 0;">&lt;h1&gt;Taco &amp; Burrito Decision Maker&lt;/h1&gt;
 
 &lt;form method="post"&gt;
     &lt;label&gt;How hungry are you? (1-10)&lt;/label&gt;
@@ -112,35 +106,23 @@ else
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
 <h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Build the C# Code Behind File (Index.cshtml.cs)</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Index.cshtml.cs</strong>. The using directive and the class wrapper are already there for you. You'll fill in the two TODO comments.</p>
 <ol style="padding-left: 22px;">
-<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">Index.cshtml.cs</strong> and delete everything in the file.</li>
-<li style="margin-bottom: 0;">Copy and paste this code:
+<li style="margin-bottom: 10px;">Replace the first TODO comment, right above OnGet, with these properties:
 <div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
-<pre style="margin: 0;">using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
-namespace Module3Lab.Pages
-{
-    public class IndexModel : PageModel
-    {
-        // These properties hold the data that Index.cshtml will display
-        // after the user submits the form.
-        public int HungerLevel { get; set; }
-        public string HungerMessage { get; set; } = string.Empty;
-        public string Recommendation { get; set; } = string.Empty;
-        public string EncouragementMessage { get; set; } = string.Empty;
-        public bool ShowResults { get; set; } = false;
-
-        public void OnGet()
-        {
-            // Runs when the page first loads, before anyone has
-            // entered a hunger level. Nothing to do here yet.
-        }
-
-        public void OnPost(int hungerLevel)
-        {
-            HungerLevel = hungerLevel;
-            ShowResults = true;
+<pre style="margin: 0;">// These properties hold the data that Index.cshtml will display
+// after the user submits the form.
+public int HungerLevel { get; set; }
+public string HungerMessage { get; set; } = string.Empty;
+public string Recommendation { get; set; } = string.Empty;
+public string EncouragementMessage { get; set; } = string.Empty;
+public bool ShowResults { get; set; } = false;</pre>
+</div>
+</li>
+<li style="margin-bottom: 0;">Replace the TODO comment inside OnPost with this code:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;">HungerLevel = hungerLevel;
+ShowResults = true;
 
             // We use two named thresholds instead of hardcoding
             // 8 and 5 directly in the if statement below. This makes the
@@ -205,10 +187,7 @@ namespace Module3Lab.Pages
                     // Catches everything not listed above, which is 1, 2, and 3
                     EncouragementMessage = "Maybe just grab a snack.";
                     break;
-            }
-        }
-    }
-}</pre>
+            }</pre>
 </div>
 </li>
 </ol>
