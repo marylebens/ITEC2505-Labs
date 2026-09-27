@@ -107,19 +107,46 @@
 </div>
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
-<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Build and Run Your First Web App</h2>
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Create Your First Web App</h2>
 <ol style="padding-left: 22px;">
 <li style="margin-bottom: 10px;">Make sure your terminal is inside the Module2Lab folder, then type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet new webapp -n HelloWorldWeb</code> and press Enter. This creates a new web app project called HelloWorldWeb.</li>
 <li style="margin-bottom: 10px;">In the Explorer, click on the HelloWorldWeb folder to expand it, then click <strong style="color: #59317C;">Program.cs</strong> to open it. This file sets up your web server and tells it how to run. Take a quick look, then leave it as is.</li>
-<li style="margin-bottom: 10px;">Expand the <strong style="color: #59317C;">Pages</strong> folder and open <strong style="color: #59317C;">Index.cshtml</strong>. This is the HTML file for your app's home page.</li>
-<li style="margin-bottom: 10px;">Find the line <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&lt;h1 class="display-4"&gt;Welcome&lt;/h1&gt;</code> and change the word Welcome to your own first name. Save the file with Ctrl+S, or Cmd+S on a Mac.</li>
+<li style="margin-bottom: 0;">Expand the <strong style="color: #59317C;">Pages</strong> folder. You'll see Index.cshtml and Index.cshtml.cs, the two files we'll edit in the next step.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Practice Declaring Variables and Using Operators</h2>
+<p style="margin-bottom: 12px;">Let's actually try out the variables and operators from the Background section above, instead of just reading about them.</p>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">Index.cshtml.cs</strong>. Inside the IndexModel class, above the OnGet method, add these variables:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><pre style="margin: 0;">public string FirstName = "Mary";
+public int BirthYear = 1999;
+public int CurrentYear = 2027;
+public int Age;</pre></div>
+</li>
+<li style="margin-bottom: 10px;">Change <strong style="color: #59317C;">FirstName</strong> and <strong style="color: #59317C;">BirthYear</strong> to your own first name and birth year.</li>
+<li style="margin-bottom: 10px;">Inside the <strong style="color: #59317C;">OnGet</strong> method, add this line, which uses the subtraction operator to calculate a value and assigns it to the Age variable:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>Age = CurrentYear - BirthYear;</code></div>
+</li>
+<li style="margin-bottom: 10px;">Save the file with Ctrl+S, or Cmd+S on a Mac.</li>
+<li style="margin-bottom: 0;">Open <strong style="color: #59317C;">Index.cshtml</strong> and find the line <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&lt;h1 class="display-4"&gt;Welcome&lt;/h1&gt;</code>. Replace it with this line, which uses @Model to display the variables you just declared:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>&lt;h1 class="display-4"&gt;Welcome, @Model.FirstName! You'll turn @(Model.Age + 1) next year.&lt;/h1&gt;</code></div>
+Save the file.
+</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Run Your Web App</h2>
+<ol style="padding-left: 22px;">
 <li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">cd HelloWorldWeb</code> to move into the project folder.</li>
 <li style="margin-bottom: 10px;">Type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter. You should see output that looks something like this:
 <div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>info: Microsoft.Hosting.Lifetime[14]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now listening on: http://localhost:5000<br>info: Microsoft.Hosting.Lifetime[0]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application started. Press Ctrl+C to shut down.</code></div>
 </li>
 <li style="margin-bottom: 10px;">Look at the bottom of your screen for a <strong style="color: #59317C;">PORTS</strong> tab next to the <strong style="color: #59317C;">TERMINAL</strong> tab, and click it.</li>
 <li style="margin-bottom: 10px;">You'll see a row with a port number, usually a four digit number starting with 50, and a Forwarded Address. Hover over the forwarded address and click the small globe icon that appears.<br><img src="/content/2025/7428029-20275000469S/images/Image-RunOutput.png" alt="Terminal showing the app listening on localhost, ready to open in the browser" style="max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid #B2B4B2;"></li>
-<li style="margin-bottom: 10px;">A new browser tab opens showing your web app, with your name in the heading instead of the word Welcome. Nice, that's your first web app running in the cloud.</li>
+<li style="margin-bottom: 10px;">A new browser tab opens showing your web app, with your welcome message and your calculated age next year, using the variables and the subtraction operator you just wrote. Nice, that's your first web app running in the cloud.</li>
 <li style="margin-bottom: 0;">Go back to VS Code and press Ctrl+C in the terminal to stop the web server. Notice the port disappears from the PORTS tab once the server stops.</li>
 </ol>
 <div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
@@ -130,7 +157,7 @@
 </div>
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
-<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Take a Quick Look at the Project Structure</h2>
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Take a Quick Look at the Project Structure</h2>
 <p style="margin-bottom: 12px;">Take a peek at the files sitting inside your HelloWorldWeb folder:</p>
 <ul style="padding-left: 22px; margin-bottom: 0;">
 <li style="margin-bottom: 8px;"><strong>Program.cs:</strong> sets up your web server and configures how the app runs.</li>
@@ -144,7 +171,7 @@
 </div>
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
-<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Build Your Troubleshooting Cheat Sheet</h2>
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Build Your Troubleshooting Cheat Sheet</h2>
 <p style="margin-bottom: 12px;">You'll run into errors eventually. Everyone does. Let's build a cheat sheet now so you have it handy all semester.</p>
 <ol style="padding-left: 22px;">
 <li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">cd ..</code> to move back up to the Module2Lab folder.</li>
@@ -199,7 +226,7 @@ Press Ctrl+C in the Terminal
 </div>
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
-<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Commit, Push, and Stop Your Codespace</h2>
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Commit, Push, and Stop Your Codespace</h2>
 <ol style="padding-left: 22px;">
 <li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon on the left toolbar, or press Ctrl+Shift+G.</li>
 <li style="margin-bottom: 10px;">Type a short commit message, something like <strong style="color: #59317C;">Module 2 Lab dev environment setup</strong>.</li>
@@ -217,11 +244,11 @@ Press Ctrl+C in the Terminal
 </div>
 
 <div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-<p style="margin: 0;">Everything in Part 2 uses skills you already practiced in Part 1: creating a web app with dotnet new webapp, editing a .cshtml.cs file and a .cshtml file, running the app with dotnet run, checking it in the browser through the PORTS tab, and committing your work. Nothing new to learn here, just a chance to build something more useful with what you already know.</p>
+<p style="margin: 0;">Everything in Part 2 uses skills you already practiced in Part 1: declaring variables with a specific type, using arithmetic operators, creating a web app with dotnet new webapp, editing a .cshtml.cs file and a .cshtml file, running the app with dotnet run, checking it in the browser through the PORTS tab, and committing your work. Nothing new to learn here, just more variables and the same operators, applied to a bigger example, plus one small new piece: <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">Math.Ceiling</code>, which rounds a decimal number up to the next whole number, so half a pizza still counts as a whole pizza you need to buy.</p>
 </div>
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
-<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em; display: flex; align-items: center;">Step 8: Build the Pizza Party Calculator <img src="/content/2025/7428029-20275000469S/images/Image-PizzaCalculator.jpg" alt="Illustration of a pizza calculator app" style="width: 90px; height: 90px; margin-left: auto; border-radius: 8px;"></h2>
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em; display: flex; align-items: center;">Step 10: Build the Pizza Party Calculator <img src="/content/2025/7428029-20275000469S/images/Image-PizzaCalculator.jpg" alt="Illustration of a pizza calculator app" style="width: 90px; height: 90px; margin-left: auto; border-radius: 8px;"></h2>
 <p style="margin-bottom: 15px;">Let's write a web app that uses variables and operators to figure out how many pizzas you'd need for a party.</p>
 <ol style="padding-left: 22px;">
 <li style="margin-bottom: 10px;">Reopen your Codespace and open the Module2Lab folder, same as Step 1 in Part 1.</li>
@@ -298,7 +325,7 @@ public class IndexModel : PageModel
 </div>
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
-<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Commit, Push, and Stop Your Codespace</h2>
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 11: Commit, Push, and Stop Your Codespace</h2>
 <ol style="padding-left: 22px;">
 <li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
 <li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 2 Lab pizza party calculator</strong>.</li>
