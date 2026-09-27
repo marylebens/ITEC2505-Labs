@@ -1,0 +1,291 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 3 Lab: Tacos, Burritos, and Conditional Statements</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">Let's teach your app to make decisions, and satisfy a craving for Mexican food while we're at it.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction</h2>
+<p style="margin-bottom: 0;">In this lab we'll explore conditional statements in C# while deciding whether to order tacos, burritos, or both, based on how hungry we are. We'll build a small web app using Razor Pages, and by the end you'll have used three different ways to write a conditional in C#: if/else if/else, the ternary operator, and switch.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: Understanding Razor Pages</h2>
+<p style="margin-bottom: 12px;">Razor Pages is how we build web apps in ASP.NET Core. Unlike a console app that runs in the terminal, a Razor Pages app runs in a web browser.</p>
+<p style="margin-bottom: 10px;"><strong>Razor Pages use two files that work together:</strong></p>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 8px;">The <strong>.cshtml file</strong> holds your HTML markup with Razor syntax, that's the @ symbol stuff. This file displays the user interface in the browser.</li>
+<li style="margin-bottom: 0;">The <strong>.cshtml.cs file</strong>, called the code behind, holds your C# logic. This file processes the data and contains your conditional statements.</li>
+</ol>
+<p style="margin: 12px 0 0 0;">The .cshtml file can reach properties and methods from the .cshtml.cs file using the <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">@Model</code> keyword. When someone submits a form, the data goes to a handler method in your code behind file, which processes it and updates properties the .cshtml file can then display.</p>
+</div>
+
+<div style="background-color: #eaf5fc; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #489FDF;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Background: Conditional Statements in C#</h2>
+<p style="margin-bottom: 12px;">Here's a quick rundown of the three kinds of conditionals we'll use today.</p>
+<p style="margin-bottom: 8px;"><strong>if/else if/else statement:</strong> use <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">if</code> to run code when a condition is true, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">else if</code> for additional conditions, and <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">else</code> for a default case.</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 15px; font-family: 'Courier New', monospace; font-size: 14px;"><pre style="margin: 0;">if (condition1)
+{
+    // runs if condition1 is true
+}
+else if (condition2)
+{
+    // runs if condition2 is true
+}
+else
+{
+    // runs if neither condition matched
+}</pre></div>
+<p style="margin-bottom: 8px;"><strong>Ternary operator:</strong> a compact way to write a simple if/else. Syntax: <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">condition ? expression1 : expression2</code></p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 15px; font-family: 'Courier New', monospace; font-size: 14px;"><code>string result = (score &gt;= 60) ? "Pass" : "Fail";</code></div>
+<p style="margin-bottom: 8px;"><strong>switch statement:</strong> compares one expression against several possible values.</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 0; font-family: 'Courier New', monospace; font-size: 14px;"><pre style="margin: 0;">switch (grade)
+{
+    case 'A':
+        // code for grade A
+        break;
+    case 'B':
+        // code for grade B
+        break;
+    default:
+        // code for other grades
+        break;
+}</pre></div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start</h2>
+<p style="margin: 0;">You'll need your GitHub account and your one shared Codespace from the Module 1 Lab. If you haven't finished that lab yet, go do that first, then come back here. If you haven't signed up for the GitHub Student Developer Pack yet, this is still a good week to knock that out, on the <a rel="noopener" href="https://education.github.com/pack/join" style="color: #1976d2; text-decoration: underline;" target="_blank">Student Developer Pack signup page</a>.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Create the Razor Pages App</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in.</li>
+<li style="margin-bottom: 10px;">Click the hamburger menu, then <strong style="color: #59317C;">Codespaces</strong>, then click on the name of your existing Codespace to reopen it. You've already got the one Codespace you'll use all semester.</li>
+<li style="margin-bottom: 10px;">Once it's loaded, open a terminal and make sure you're inside the Module3Lab folder.</li>
+<li style="margin-bottom: 10px;">Type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet new razor -n Module3Lab</code> and press Enter. This creates a new Razor Pages project called Module3Lab.</li>
+<li style="margin-bottom: 10px;">In the Explorer, click on the Module3Lab folder to expand it, then expand the <strong style="color: #59317C;">Pages</strong> folder. You'll see Index.cshtml and Index.cshtml.cs, the two files we'll work with today.</li>
+<li style="margin-bottom: 0;">Type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">cd Module3Lab</code> in the terminal to move into the project folder.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Build the HTML Display File (Index.cshtml)</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">Index.cshtml</strong> and delete everything in the file.</li>
+<li style="margin-bottom: 0;">Type in this code:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;">@page
+@model Module3Lab.Pages.IndexModel
+@{
+    ViewData["Title"] = "Taco &amp; Burrito Decision Maker";
+}
+
+&lt;h1&gt;Taco &amp; Burrito Decision Maker&lt;/h1&gt;
+
+&lt;form method="post"&gt;
+    &lt;label&gt;How hungry are you? (1-10)&lt;/label&gt;
+    &lt;input type="number" name="hungerLevel" min="1" max="10" required /&gt;
+    &lt;button type="submit"&gt;Get My Recommendation&lt;/button&gt;
+&lt;/form&gt;
+
+@if (Model.ShowResults)
+{
+    &lt;h2&gt;Your Results:&lt;/h2&gt;
+    &lt;p&gt;&lt;strong&gt;Hunger Level:&lt;/strong&gt; @Model.HungerLevel&lt;/p&gt;
+    &lt;p&gt;@Model.HungerMessage&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;I recommend:&lt;/strong&gt; @Model.Recommendation&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;@Model.EncouragementMessage&lt;/strong&gt;&lt;/p&gt;
+}</pre>
+</div>
+</li>
+</ol>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin: 0;"><strong style="color: #59317C;">What this file does:</strong> it creates the form where someone enters their hunger level. The <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">@Model</code> keyword lets us reach properties from the code behind file, and the <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">@if (Model.ShowResults)</code> block only shows up after someone submits the form.</p>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Build the C# Code Behind File (Index.cshtml.cs)</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">Index.cshtml.cs</strong> and delete everything in the file.</li>
+<li style="margin-bottom: 0;">Copy and paste this code:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;">using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace Module3Lab.Pages
+{
+    public class IndexModel : PageModel
+    {
+        // These properties hold the data that Index.cshtml will display
+        // after the user submits the form.
+        public int HungerLevel { get; set; }
+        public string HungerMessage { get; set; } = string.Empty;
+        public string Recommendation { get; set; } = string.Empty;
+        public string EncouragementMessage { get; set; } = string.Empty;
+        public bool ShowResults { get; set; } = false;
+
+        public void OnGet()
+        {
+            // Runs when the page first loads, before anyone has
+            // entered a hunger level. Nothing to do here yet.
+        }
+
+        public void OnPost(int hungerLevel)
+        {
+            HungerLevel = hungerLevel;
+            ShowResults = true;
+
+            // We use two named thresholds instead of hardcoding
+            // 8 and 5 directly in the if statement below. This makes the
+            // conditions easier to read, and if you want to change what
+            // counts as very hungry, you only have to change it in one place.
+            const int veryHungryThreshold = 8;
+            const int somewhatHungryThreshold = 5;
+
+            // IF ELSE IF ELSE STATEMENT
+            // C# checks each condition in order from top to bottom and
+            // runs the first block that matches. Once one matches, it
+            // skips the rest, even if a later condition would also be true.
+            if (HungerLevel >= veryHungryThreshold)
+            {
+                // Runs when HungerLevel is 8, 9, or 10
+                HungerMessage = "You're super hungry. Order both tacos and burritos.";
+            }
+            else if (HungerLevel >= somewhatHungryThreshold)
+            {
+                // Runs when HungerLevel is 5, 6, or 7
+                // We already know it's less than 8 here, or the first
+                // condition above would have matched instead.
+                HungerMessage = "You're moderately hungry. Go for a plate of tacos.";
+            }
+            else
+            {
+                // Runs for anything left over, which is HungerLevel 1 through 4
+                HungerMessage = "You're not that hungry. Opt for a small burrito.";
+            }
+
+            // TERNARY OPERATOR
+            // This is shorthand for a simple if else that only sets one
+            // value. Read it as: if HungerLevel is 5 or more, Recommendation
+            // becomes "Tacos". Otherwise it becomes "Burrito".
+            Recommendation = (HungerLevel >= somewhatHungryThreshold) ? "Tacos" : "Burrito";
+
+            // SWITCH STATEMENT
+            // A switch compares HungerLevel against a list of specific
+            // values. Grouping several case labels together, like the 7, 8,
+            // and 9 lines below, means all of those values run the same
+            // block of code. The break statement tells C# to stop checking
+            // once it finds a match.
+            switch (HungerLevel)
+            {
+                case 10:
+                    EncouragementMessage = "You're a taco and burrito champion.";
+                    break;
+
+                case 9:
+                case 8:
+                case 7:
+                    EncouragementMessage = "Taco plate time.";
+                    break;
+
+                case 6:
+                case 5:
+                case 4:
+                    EncouragementMessage = "Small burrito it is.";
+                    break;
+
+                default:
+                    // Catches everything not listed above, which is 1, 2, and 3
+                    EncouragementMessage = "Maybe just grab a snack.";
+                    break;
+            }
+        }
+    }
+}</pre>
+</div>
+</li>
+</ol>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin: 0;"><strong style="color: #59317C;">What this file does:</strong> this is where all your C# logic lives. <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">OnGet()</code> runs when the page first loads, and <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">OnPost()</code> runs when someone submits the form. All three kinds of conditionals live inside <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">OnPost()</code>.</p>
+</div>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Before You Run It: Predict the Output</p>
+<p style="margin-bottom: 10px;">Before moving on to Step 4, read through the OnPost method above and predict what the app will show for each of these hunger levels. Jot down the HungerMessage, the Recommendation, and the EncouragementMessage for each one.</p>
+<ul style="padding-left: 22px; margin-bottom: 10px;">
+<li style="margin-bottom: 6px;">Hunger Level 3</li>
+<li style="margin-bottom: 6px;">Hunger Level 6</li>
+<li style="margin-bottom: 0;">Hunger Level 9</li>
+</ul>
+<p style="margin: 0;">Be ready to share your predictions with the class. After you run your app in Step 4, check your predictions against what actually shows up on the page.</p>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Reflection Question</p>
+<p style="margin: 0;">When would you reach for a switch statement instead of an if else chain? Think about what the EncouragementMessage code is doing compared to the HungerMessage code. Be ready to share your answer with the class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Run Your Web Application</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, make sure you're inside the Module3Lab folder, then type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab at the bottom of the screen, hover over the forwarded address, and click the small globe icon to open your app in a new browser tab.</li>
+<li style="margin-bottom: 10px;">Enter a hunger level between 1 and 10 and click <strong style="color: #59317C;">Get My Recommendation</strong>.</li>
+<li style="margin-bottom: 10px;">Try a few different hunger levels and check them against your predictions from Step 3.</li>
+<li style="margin-bottom: 0;">When you're done testing, go back to the terminal and press Ctrl+C to stop the server.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Commit, Push, and Stop Your Codespace</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 3 Lab taco and burrito decision maker</strong>.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+<li style="margin-bottom: 0;">Stop your Codespace: hamburger menu, <strong style="color: #59317C;">Codespaces</strong>, find yours, three dots, <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Optional stretch practice, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<p style="margin: 0 0 12px 0;">If you finish early in class, or want more practice at home, try one or more of these. None of this is required, and it's all the same skill set from Part 1: editing Index.cshtml.cs and Index.cshtml, then running and testing.</p>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Add more food options to the Decision Maker, like tamales or enchiladas.</li>
+<li style="margin-bottom: 8px;">Customize the messages inside the if statement or the switch statement.</li>
+<li style="margin-bottom: 8px;">Change the colors and styles in Index.cshtml to match your own taste.</li>
+<li style="margin-bottom: 0;">Add images of tacos and burritos to make the page more visually interesting.</li>
+</ul>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">How to Submit Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the submission textbox at the bottom of this lab in D2L and click Submit. Congratulations on finishing Module 3, go celebrate with a taco.</li>
+</ol>
+</div>
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Images of Octocat and college students eating tacos generated by Microsoft Copilot.</li>
+<li style="margin-bottom: 8px;">All other images created by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 0;">Instructions and code by Dr. Mary Lebens.</li>
+</ul>
+</div>
