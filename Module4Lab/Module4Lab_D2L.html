@@ -115,15 +115,42 @@ while (i &lt; Shows.Length)
 <li style="margin-bottom: 10px;">Confirm all three shows display in a numbered list.</li>
 <li style="margin-bottom: 0;">Confirm the count of long titles below the list looks right. Hamlet and Fences are 6 letters, Cabaret is 7, so the count should read 3.</li>
 </ol>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Refresher: what just happened when you typed dotnet run</p>
+<p style="margin-bottom: 10px;">When you type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code>, your Codespace starts a web server, a background program that sits and waits for a browser to ask it for a page. That server picks a port to listen on, a number that works like an apartment number at the address localhost, so your browser knows exactly where to knock.</p>
+<p style="margin-bottom: 10px;">The PORTS tab is where you see that port number and get a clickable web address, a URL, that points your browser at it. When you click the globe icon, your browser sends a request to that URL, the web server receives it, runs your Razor Page code, builds the HTML for the page, and sends it back. That's the page you see.</p>
+<p style="margin-bottom: 0;">When you press Ctrl+C in the terminal, you're telling the web server to shut down, which is why the port disappears from the PORTS tab and the page stops loading if you refresh it.</p>
+</div>
 </div>
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
-<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Commit, Push, and Stop Your Codespace</h2>
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Commit and Push Your Work</h2>
 <ol style="padding-left: 22px;">
 <li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
 <li style="margin-bottom: 10px;">Type a commit message and click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong>.</li>
-<li style="margin-bottom: 10px;">Check your GitHub repo in your browser to confirm your latest commit shows up there. If you don't see it, go back to Source Control in the Codespace and click Sync Changes again.</li>
-<li style="margin-bottom: 0;">Stop your Codespace: hamburger menu, <strong style="color: #59317C;">Codespaces</strong>, find yours, three dots, <strong style="color: #59317C;">Stop codespace</strong>. This matters because a Codespace that keeps running uses up your monthly free hours even when you aren't working in it.</li>
+<li style="margin-bottom: 0;">Check your GitHub repo in your browser to confirm your latest commit shows up there. If you don't see it, go back to Source Control in the Codespace and click Sync Changes again.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace Before You Move On</h2>
+<p style="margin-bottom: 12px;">This is the step people skip, and it's the one that causes the most trouble. A Codespace left running eats into your monthly free hours whether you're touching the keyboard or not, and running out mid-semester means you can't work on labs until your hours reset. Take the thirty seconds now.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 1 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 1 submission textbox in D2L and click Submit. You're not done yet, Part 2 is required too.</li>
 </ol>
 </div>
 
@@ -131,20 +158,85 @@ while (i &lt; Shows.Length)
 
 <div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
 <h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
-<p style="margin: 4px 0 0 0; color: #ffffff;">Optional stretch practice, using the exact same skills from Part 1.</p>
+<p style="margin: 4px 0 0 0; color: #ffffff;">You'll write your own for loop and your own while loop this time, using the exact same skills from Part 1.</p>
 </div>
 
 <div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-<p style="margin: 0;">Add two more real show titles to the Shows array. Then run the program again and check whether the long title count still makes sense. This uses the exact same skills as Part 1, editing the array and rereading the loop logic, nothing new to learn here.</p>
+<p style="margin: 0;">In Part 1 you typed loops that were already written out for you. Now you'll write your own version of each kind, from scratch, adding ticket prices to the same app. This is required, not optional, since writing the loop yourself is what actually builds the skill.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Reopen Your Codespace and Add a Ticket Prices Array</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a>, sign in, and reopen your existing Codespace, same as Step 1.</li>
+<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">Pages/Index.cshtml.cs</strong> inside your Module4Lab project folder.</li>
+<li style="margin-bottom: 0;">Right next to your Shows array, add a second array called TicketPrices, one price for each show in the same order:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>public double[] TicketPrices = { 89.00, 65.00, 72.50 };</code></div>
+Save the file.
+</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Write Your Own for Loop</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Index.cshtml</strong>. Right after the closing <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&lt;/ul&gt;</code> from Step 3, add a new heading, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&lt;h5&gt;Ticket Prices:&lt;/h5&gt;</code>, followed by your own list.</p>
+<p style="margin: 0;">Write your own <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">@for</code> loop, following the same pattern as the show list above it, that walks through TicketPrices and displays a list item for each show's name and price together, something like <strong>Hamlet: $89.00</strong>. You already have both arrays lined up in the same order, so the loop counter that works for one works for the other too.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Write Your Own while Loop</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Index.cshtml.cs</strong>. Add a new property called <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">ExpensiveShowCount</code>, an int.</p>
+<p style="margin: 0;">Inside OnGet, following the same pattern as the while loop that counts long titles, write your own while loop that counts how many ticket prices are $70.00 or higher, and stores the result in ExpensiveShowCount.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Display the Count</h2>
+<p style="margin: 0;">Back in Index.cshtml, add a paragraph after your ticket price list that displays ExpensiveShowCount, following the same pattern as the long title count paragraph in Step 3.</p>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Before You Run It: Predict the Output</p>
+<p style="margin: 0;">Using the sample prices above (89.00, 65.00, 72.50), predict what ExpensiveShowCount will be before you run the app. Then check your prediction in Step 10.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 10: Run and Test Your Program</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab, hover over the forwarded address, and click the globe icon to open your app.</li>
+<li style="margin-bottom: 10px;">Confirm your ticket price list shows all three shows with their prices, and confirm ExpensiveShowCount matches your prediction from Step 9.</li>
+<li style="margin-bottom: 0;">When you're done testing, go back to the terminal and press Ctrl+C to stop the server.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 11: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 4 Lab ticket prices loops</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace</h2>
+<p style="margin-bottom: 12px;">Same reminder as Part 1, and it matters just as much here. Don't leave this running.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
 </div>
 
 <div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
-<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">How to Submit Your Lab</h1>
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 2 of Your Lab</h1>
 <ol style="padding-left: 22px; color: #ffffff;">
 <li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
 <li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
 <li style="margin-bottom: 10px;">Copy the URL.</li>
-<li style="margin-bottom: 0;">Paste the URL into the submission textbox at the bottom of this lab in D2L and click Submit.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 2 submission textbox in D2L and click Submit.</li>
 </ol>
 </div>
 
