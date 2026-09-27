@@ -1,0 +1,332 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 2 Lab: C# Basics and Setting Up Your Development Environment</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">Let's get your tools dialed in and write your first two web apps.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction</h2>
+<p style="margin-bottom: 15px;">This lab is all about getting your development environment set up correctly so you can write and run C# code smoothly all semester. We'll install the C# Dev Kit extension, check that .NET is ready to go, learn how to troubleshoot common hiccups, and build a couple of small web apps, including a pizza calculator you'll get to test out yourself.</p>
+<p style="margin-bottom: 0;">Think of this lab as building a solid foundation before we start writing more complex programs. Part 1 is what we'll do together in class, in about an hour. Part 2 is what you'll finish up on your own at home, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start</h2>
+<ul style="padding-left: 22px;">
+<li style="margin-bottom: 12px;">You'll need a GitHub account and your one shared Codespace from the Module 1 Lab. If you haven't finished that lab yet, go do that first, then come back here.</li>
+<li style="margin-bottom: 12px;">If you haven't signed up for the GitHub Student Developer Pack yet, this is a good week to do it. Free accounts come with a limited number of Codespace hours, and the pack removes that limit for students. You can apply on the <a rel="noopener" href="https://education.github.com/pack/join" style="color: #1976d2; text-decoration: underline;" target="_blank">Student Developer Pack signup page</a>.</li>
+</ul>
+</div>
+
+<div style="background-color: #eaf5fc; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #489FDF;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Background: Why .NET 10 LTS?</h2>
+<p style="margin-bottom: 15px;">We're using .NET 10 LTS this semester, which stands for Long-Term Support. This is what professional developers use in production environments. Companies don't jump to the newest version the second it comes out, since that's a great way to run into bugs and compatibility issues that cost real money to fix.</p>
+<p style="margin-bottom: 0;">.NET 10 came out in November 2025 and is stable and widely adopted across the industry. Learning on .NET 10 means you're learning what's actually running in production right now at most companies. The C# language and core .NET concepts stay pretty consistent across versions, so the skills you build here will carry forward to future versions too.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: What You'll Need</h2>
+<p style="margin-bottom: 15px;">C# is a compiled language, which means it needs special tools to turn your code into a program that can actually run. Your Codespace already has these installed for you:</p>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;"><strong>.NET SDK:</strong> The software development kit that includes everything needed to build and run C# applications. We're using .NET 10, the Long-Term Support version, this semester.</li>
+<li style="margin-bottom: 10px;"><strong>VS Code:</strong> A lightweight code editor that works great for C# development once you add the right extensions.</li>
+<li style="margin-bottom: 0;"><strong>C# Dev Kit:</strong> A VS Code extension that gives you IntelliSense, which is code completion, plus debugging and error checking. You'll install this yourself in Step 2.</li>
+</ul>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: Data Types and Operators, from Python to C#</h2>
+<p style="margin-bottom: 10px;">You learned about data types and operators in Python. C# is similar, with a few differences worth knowing:</p>
+<ul style="padding-left: 22px;">
+<li style="margin-bottom: 6px;">Python <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">int</code> becomes C# <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">int</code>, whole numbers.</li>
+<li style="margin-bottom: 6px;">Python <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">float</code> becomes C# <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">double</code>, decimal numbers.</li>
+<li style="margin-bottom: 6px;">Python <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">str</code> becomes C# <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">string</code>, text.</li>
+<li style="margin-bottom: 0;">Python <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">bool</code> becomes C# <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">bool</code>, true or false.</li>
+</ul>
+<p style="margin-bottom: 10px;"><strong>Key difference:</strong> C# asks you to declare the type when you create a variable.</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 15px; font-family: 'Courier New', monospace; font-size: 14px;">
+<p style="margin: 0 0 4px 0; color: #707372;">Python:</p>
+<code>age = 25</code>
+<p style="margin: 15px 0 4px 0; color: #707372;">C#:</p>
+<code>int age = 25;</code>
+<p style="margin: 15px 0 4px 0; color: #707372;">Or use var, and let the compiler figure out the type:</p>
+<code>var age = 25; // the compiler knows this is an int</code>
+</div>
+<p style="margin-bottom: 10px;"><strong>Operators work almost exactly like Python:</strong></p>
+<ul style="padding-left: 22px;">
+<li style="margin-bottom: 6px;">Arithmetic: <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">+</code>, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">-</code>, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">*</code>, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">/</code>, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">%</code> (modulus)</li>
+<li style="margin-bottom: 6px;">Comparison: <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">==</code>, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">!=</code>, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&lt;</code>, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&gt;</code>, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&lt;=</code>, <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&gt;=</code></li>
+<li style="margin-bottom: 6px;">Logical: <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&amp;&amp;</code> (and), <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">||</code> (or), <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">!</code> (not)</li>
+<li style="margin-bottom: 0;">Assignment: <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">=</code></li>
+</ul>
+<p style="margin: 15px 0 0 0;">The syntax is almost identical to Python. Just remember to end each line with a semicolon in C#.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class (About an Hour)</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Open the Module2Lab Folder</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in with your Minneapolis College email address, which ends in @go.minneapolis.edu.</li>
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner, which is three horizontal lines.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Click on the name of your existing Codespace to reopen it. You already have the one Codespace you'll use all semester, so there's no need to create a new one.</li>
+<li style="margin-bottom: 10px;">Wait for it to finish loading.</li>
+<li style="margin-bottom: 10px;">In the Explorer on the left, click the folder named <strong style="color: #59317C;">Module2Lab</strong> to expand it. This is where we'll build today's projects.</li>
+<li style="margin-bottom: 0;">Open a terminal. If you don't see a Terminal panel at the bottom of the screen, click the hamburger menu at the top left, then click <strong style="color: #59317C;">Terminal</strong>, then click <strong style="color: #59317C;">New Terminal</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Install the C# Dev Kit Extension</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Extensions</strong> icon on the left side menu to open the Extensions Marketplace. If you don't see it, click the hamburger menu and choose <strong style="color: #59317C;">View</strong>, then <strong style="color: #59317C;">Extensions</strong>.</li>
+<li style="margin-bottom: 10px;">In the search box at the top, type <strong style="color: #59317C;">C# Dev Kit</strong> and press Enter.</li>
+<li style="margin-bottom: 0;">Click the blue <strong style="color: #59317C;">Install</strong> button on the C# Dev Kit extension. This also installs the base C# extension automatically, so you're all set with one click.<br><img src="/content/2025/7428029-20275000469S/images/Image-Extensions.png" alt="C# Dev Kit extension shown in the Extensions Marketplace with an install button" style="max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid #B2B4B2;"></li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Check Your .NET Version</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet --version</code> and press Enter. You should see something like <strong style="color: #59317C;">10.0.xxx</strong>. The exact number after 10.0 doesn't matter.</li>
+<li style="margin-bottom: 0;">Type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet --list-sdks</code> and press Enter. This shows every .NET SDK installed in your Codespace.</li>
+</ol>
+<div style="background-color: #f5f8e0; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">What if you see the wrong version?</p>
+<p style="margin-bottom: 10px;">If you see 8.0 or 9.0 instead of 10.0, you can point your project at .NET 10 specifically once you've created it in Step 4.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Open the HelloWorldWeb.csproj file inside your HelloWorldWeb folder.</li>
+<li style="margin-bottom: 8px;">Find the line that says <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&lt;TargetFramework&gt;</code> and change it to <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&lt;TargetFramework&gt;net10.0&lt;/TargetFramework&gt;</code></li>
+<li style="margin-bottom: 8px;">Save the file, then run <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet restore</code> in the terminal.</li>
+<li style="margin-bottom: 0;">Run <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet build</code> to rebuild with the correct version.</li>
+</ol>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Build and Run Your First Web App</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Make sure your terminal is inside the Module2Lab folder, then type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet new webapp -n HelloWorldWeb</code> and press Enter. This creates a new web app project called HelloWorldWeb.</li>
+<li style="margin-bottom: 10px;">In the Explorer, click on the HelloWorldWeb folder to expand it, then click <strong style="color: #59317C;">Program.cs</strong> to open it. This file sets up your web server and tells it how to run. Take a quick look, then leave it as is.</li>
+<li style="margin-bottom: 10px;">Expand the <strong style="color: #59317C;">Pages</strong> folder and open <strong style="color: #59317C;">Index.cshtml</strong>. This is the HTML file for your app's home page.</li>
+<li style="margin-bottom: 10px;">Find the line <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">&lt;h1 class="display-4"&gt;Welcome&lt;/h1&gt;</code> and change the word Welcome to your own first name. Save the file with Ctrl+S, or Cmd+S on a Mac.</li>
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">cd HelloWorldWeb</code> to move into the project folder.</li>
+<li style="margin-bottom: 10px;">Type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter. You should see output that looks something like this:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>info: Microsoft.Hosting.Lifetime[14]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now listening on: http://localhost:5000<br>info: Microsoft.Hosting.Lifetime[0]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application started. Press Ctrl+C to shut down.</code></div>
+</li>
+<li style="margin-bottom: 10px;">Look at the bottom of your screen for a <strong style="color: #59317C;">PORTS</strong> tab next to the <strong style="color: #59317C;">TERMINAL</strong> tab, and click it.</li>
+<li style="margin-bottom: 10px;">You'll see a row with a port number, usually a four digit number starting with 50, and a Forwarded Address. Hover over the forwarded address and click the small globe icon that appears.<br><img src="/content/2025/7428029-20275000469S/images/Image-RunOutput.png" alt="Terminal showing the app listening on localhost, ready to open in the browser" style="max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid #B2B4B2;"></li>
+<li style="margin-bottom: 10px;">A new browser tab opens showing your web app, with your name in the heading instead of the word Welcome. Nice, that's your first web app running in the cloud.</li>
+<li style="margin-bottom: 0;">Go back to VS Code and press Ctrl+C in the terminal to stop the web server. Notice the port disappears from the PORTS tab once the server stops.</li>
+</ol>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Quick note on ports and localhost</p>
+<p style="margin-bottom: 10px;">Picture your computer as an apartment building. The building has one street address, localhost, but inside there are lots of apartments, each with its own number, the port number. When you run a web app, it lives in one of those apartments. Your browser goes to localhost:5000, which basically means "go to this computer, knock on apartment 5000."</p>
+<p style="margin-bottom: 0;">Port 80 is the usual default for regular websites, 443 for secure HTTPS sites, the 5000 range is common for .NET apps like ours while we're developing, and port 3000 shows up a lot with React and Node apps.</p>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Take a Quick Look at the Project Structure</h2>
+<p style="margin-bottom: 12px;">Take a peek at the files sitting inside your HelloWorldWeb folder:</p>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;"><strong>Program.cs:</strong> sets up your web server and configures how the app runs.</li>
+<li style="margin-bottom: 8px;"><strong>Pages folder:</strong> holds your web pages.</li>
+<li style="margin-bottom: 8px;"><strong>wwwroot folder:</strong> holds static files like CSS, JavaScript, and images.</li>
+<li style="margin-bottom: 8px;"><strong>HelloWorldWeb.csproj:</strong> the project file that tells .NET how to build your app.</li>
+<li style="margin-bottom: 8px;"><strong>obj and bin folders:</strong> hold temporary and compiled files.</li>
+<li style="margin-bottom: 0;"><strong>appsettings.json:</strong> a configuration file for your app.</li>
+</ul>
+<p style="margin: 12px 0 0 0;">You won't need to edit the .csproj file or touch the obj and bin folders, but it's good to know what they're for.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Build Your Troubleshooting Cheat Sheet</h2>
+<p style="margin-bottom: 12px;">You'll run into errors eventually. Everyone does. Let's build a cheat sheet now so you have it handy all semester.</p>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">cd ..</code> to move back up to the Module2Lab folder.</li>
+<li style="margin-bottom: 10px;">In the Explorer, right click in the empty space under the Module2Lab folder and choose <strong style="color: #59317C;">New File</strong>. Name it <strong style="color: #59317C;">TROUBLESHOOTING.md</strong>. The .md extension means Markdown, a simple markup language developers use for documentation like this.</li>
+<li style="margin-bottom: 0;">Copy and paste the following into the file, then save it:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;"># C# Troubleshooting Cheat Sheet
+
+## Check .NET Version
+dotnet --version
+dotnet --list-sdks
+
+## Restore Packages
+dotnet restore
+
+## Clean and Rebuild
+dotnet clean
+dotnet build
+
+## Delete bin/obj Folders
+Right-click on bin and obj folders in VS Code and choose Delete, then run:
+dotnet build
+
+## Stop a Running Web Server
+Press Ctrl+C in the Terminal
+
+## Port Already in Use
+- Press Ctrl+C to stop the server
+- Click the PORTS tab, right-click the port, choose "Stop Forwarding Port"
+- Run dotnet run again
+
+## Common Error Messages
+"The type or namespace name could not be found"
+- Missing using statement or package reference
+- Run dotnet restore
+
+"The current .NET SDK does not support targeting .NET X"
+- Version mismatch between SDK and project
+- Check dotnet --version
+
+"Address already in use"
+- Port conflict
+- Stop the previous instance with Ctrl+C or stop port forwarding
+
+## Getting Help
+- Office hours: check the syllabus for drop-in sessions and the Zoom link
+- Email or call me
+- Make an appointment in Navigate for tutoring</pre>
+</div>
+</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Commit, Push, and Stop Your Codespace</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon on the left toolbar, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a short commit message, something like <strong style="color: #59317C;">Module 2 Lab dev environment setup</strong>.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Commit</strong>. If you're asked to stage your changes first, click <strong style="color: #59317C;">Yes</strong>.<br><img src="/content/2025/7428029-20275000469S/images/Image-SourceControl.png" alt="Source control panel with a commit message typed in" style="max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid #B2B4B2;"></li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Sync Changes</strong> to push everything up to your fork on GitHub.</li>
+<li style="margin-bottom: 0;">Stop your Codespace: click the hamburger menu, click <strong style="color: #59317C;">Codespaces</strong>, find yours in the list, click the three dots next to it, and click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Finish these steps on your own, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<p style="margin: 0;">Everything in Part 2 uses skills you already practiced in Part 1: creating a web app with dotnet new webapp, editing a .cshtml.cs file and a .cshtml file, running the app with dotnet run, checking it in the browser through the PORTS tab, and committing your work. Nothing new to learn here, just a chance to build something more useful with what you already know.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em; display: flex; align-items: center;">Step 8: Build the Pizza Party Calculator <img src="/content/2025/7428029-20275000469S/images/Image-PizzaCalculator.jpg" alt="Illustration of a pizza calculator app" style="width: 90px; height: 90px; margin-left: auto; border-radius: 8px;"></h2>
+<p style="margin-bottom: 15px;">Let's write a web app that uses variables and operators to figure out how many pizzas you'd need for a party.</p>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Reopen your Codespace and open the Module2Lab folder, same as Step 1 in Part 1.</li>
+<li style="margin-bottom: 10px;">In the terminal, make sure you're inside the Module2Lab folder, then type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet new webapp -n PizzaPartyCalculator</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">cd PizzaPartyCalculator</code> to move into the new project folder.</li>
+<li style="margin-bottom: 10px;">In the Explorer, expand the <strong style="color: #59317C;">Pages</strong> folder. You'll see a pair of files both named Index, with two different extensions. Index.cshtml is the HTML file for the home page. Index.cshtml.cs is the C# file that holds the logic, the code that actually does the calculating.</li>
+<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">Index.cshtml.cs</strong> and replace everything in the file with this code:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace PizzaPartyCalculator.Pages;
+
+public class IndexModel : PageModel
+{
+    [BindProperty]
+    public int NumberOfGuests { get; set; }
+
+    public int PizzasNeeded { get; set; }
+    public double TotalCost { get; set; }
+    public bool ShowResult { get; set; }
+
+    public void OnGet()
+    {
+        ShowResult = false;
+    }
+
+    public void OnPost()
+    {
+        // Declare variables
+        int slicesPerGuest = 3; // Assume each guest eats 3 slices
+        int slicesPerPizza = 8; // Standard pizza has 8 slices
+        double costPerPizza = 12.99;
+
+        // Calculate the total number of slices needed
+        int totalSlicesNeeded = NumberOfGuests * slicesPerGuest;
+
+        // Calculate the number of pizzas required
+        PizzasNeeded = (int)Math.Ceiling((double)totalSlicesNeeded / slicesPerPizza);
+
+        // Calculate total cost
+        TotalCost = PizzasNeeded * costPerPizza;
+        ShowResult = true;
+    }
+}</pre>
+</div>
+</li>
+<li style="margin-bottom: 10px;">Now open <strong style="color: #59317C;">Index.cshtml</strong> and replace everything in that file with this code. The @ symbols are called directives, and they tell the compiler that the code right after the @ symbol is C#, not HTML, so it needs to run rather than just display. HTML only formats the page, while C# code can actually do things, like calculate a pizza count.
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Pizza Party Calculator";
+}
+&lt;h1&gt;Pizza Party Calculator&lt;/h1&gt;
+&lt;p&gt;Find out how many pizzas you need for your party!&lt;/p&gt;
+&lt;form method="post"&gt;
+    &lt;label for="NumberOfGuests"&gt;Number of Guests:&lt;/label&gt;
+    &lt;input type="number" id="NumberOfGuests" name="NumberOfGuests" required min="1" /&gt;
+    &lt;button type="submit"&gt;Calculate&lt;/button&gt;
+&lt;/form&gt;
+@if (Model.ShowResult)
+{
+    &lt;p&gt;For @Model.NumberOfGuests guests, you'll need @Model.PizzasNeeded pizzas.&lt;/p&gt;
+    &lt;p&gt;That will cost $@Model.TotalCost (at $12.99 per pizza).&lt;/p&gt;
+}</pre>
+</div>
+</li>
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab and click the globe icon to open your web app, same as you did in Part 1.</li>
+<li style="margin-bottom: 10px;">Test your calculator. Try 10 guests, then 25, then 50, clicking Calculate each time and watching the results change.</li>
+<li style="margin-bottom: 0;">Go back to the terminal and press Ctrl+C to stop the server.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Commit, Push, and Stop Your Codespace</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 2 Lab pizza party calculator</strong>.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+<li style="margin-bottom: 0;">Stop your Codespace: hamburger menu, <strong style="color: #59317C;">Codespaces</strong>, find yours, three dots, <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">How to Submit Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.<br><img src="/content/2025/7428029-20275000469S/images/Image-Repo.png" alt="GitHub dashboard with the repository name listed under Top Repositories" style="max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid #ffffff;"></li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the submission textbox at the bottom of this lab in D2L and click Submit. Congratulations on finishing Module 2, go celebrate with a slice of pizza.</li>
+</ol>
+</div>
+
+<div style="text-align: center; margin-bottom: 25px;"><img src="/content/2025/7428029-20275000469S/images/Image-StudentsPizzaParty.jpg" alt="Students celebrating with pizza after finishing a coding lab" style="max-width: 100%; border-radius: 10px; border: 1px solid #B2B4B2;"></div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Images of students with pizza, the pizza calculator, and Octocat created using Microsoft Copilot.</li>
+<li style="margin-bottom: 8px;">All other images, including screenshots, created by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 8px;">Lab instructions and code by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 0;">This lab is licensed under <a rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: #1976d2; text-decoration: underline;" target="_blank">Creative Commons BY-NC-SA 4.0</a> and can be reused by other educators at nonprofits as long as attribution is given.</li>
+</ul>
+</div>
