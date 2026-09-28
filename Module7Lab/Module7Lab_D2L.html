@@ -1,0 +1,255 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 7 Lab: SQL Statements</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">Let's build a real database, then learn to talk to it.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction</h2>
+<p style="margin-bottom: 0;">This is a jam packed lab. We'll build and populate a database called Northwind Traders, then write SQL SELECT queries together to pull data out of it. SELECT queries are statements used to retrieve data from a database, and they're the single most common thing you'll write as a developer working with data.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em; display: flex; align-items: center;">Background: What Is Forking a Repo? <img src="/content/2025/7428029-20275000469S/images/fork.png" alt="A fork in the road" style="width: 110px; height: 90px; margin-left: auto; border-radius: 8px;"></h2>
+<p style="margin-bottom: 12px;"><strong>What is a fork?</strong> A fork is your own copy of someone else's repository. Forking lets you freely experiment with changes without touching the original project, like a fork in the road, where the original repo keeps going one direction and your copy goes its own way.</p>
+<p style="margin-bottom: 12px;"><strong>Why are we forking a different repo instead of using our usual one?</strong> Today's repo contains a Docker container your instructor set up. Docker is a popular platform for creating and running containers, which are lightweight, isolated environments that package an application along with everything it needs to run.</p>
+<p style="margin-bottom: 0;"><strong>What's in this container?</strong> It's already set up with Microsoft SQL Server and .NET, so you don't need to install and configure those tools yourself. It also contains the SQL script we'll use to build the Northwind database.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: The Northwind Database</h2>
+<p style="margin-bottom: 12px;">Northwind Traders is a fictional company that imports and exports specialty foods, and Microsoft built this sample database to teach SQL. It manages orders, products, customers, suppliers, and more, which makes it a great playground for practicing real queries.</p>
+<h3 style="color: #59317C; margin-top: 15px; font-size: 1.15em;">Northwind Database Entity-Relationship Diagram (ERD)</h3>
+<img src="/content/2025/7428029-20275000469S/images/Northwind%20ERD%20Creted%20with%20Eraser.jpg" alt="Northwind database ERD showing tables and relationships" style="max-width: 100%; border-radius: 8px; margin-bottom: 15px; border: 1px solid #B2B4B2;">
+<p style="margin-bottom: 12px;">An ERD, or Entity Relationship Diagram, is a visual map showing how the tables in a database relate to each other. Entities are the tables, attributes are the columns, and relationships show how tables connect, usually through a primary key in one table matching a foreign key in another. For example, SupplierID is the primary key in Suppliers and a foreign key in Products, which is why those two tables are related.</p>
+<p style="margin: 0;"><strong>Pro tip:</strong> keep this ERD handy while writing SQL. Table and column names need to match the database exactly, so use the ERD as your spelling reference.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start</h2>
+<p style="margin: 0;">You'll need your GitHub account from the Module 1 Lab. Today's lab uses a different repository and a different Codespace than usual, since it needs the SQL Server Docker container, so don't reuse your regular Codespace this time. If you haven't signed up for the GitHub Student Developer Pack yet, this is still a good week to knock that out, on the <a rel="noopener" href="https://education.github.com/pack/join" style="color: #1976d2; text-decoration: underline;" target="_blank">Student Developer Pack signup page</a>.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Fork the SQL Repository</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in.</li>
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/marylebens/sqlserver" style="color: #1976d2; text-decoration: underline;" target="_blank">the class SQL Server repository</a>.</li>
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Fork</strong> button near the top right of the page.<br><img src="/content/2025/7428029-20275000469S/images/Image-Fork1.png" alt="GitHub repository page with the Fork button near the top" style="max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid #B2B4B2;"></li>
+<li style="margin-bottom: 0;">On the Create a New Fork screen, accept the defaults and click the green <strong style="color: #59317C;">Create Fork</strong> button.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Create a Codespace for This Fork</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the green <strong style="color: #59317C;">Code</strong> button, then click the green <strong style="color: #59317C;">Create codespace on main</strong> button.<br><img src="/content/2025/7428029-20275000469S/images/Image-CreateCode.png" alt="Create Codespace button" style="max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid #B2B4B2;"></li>
+<li style="margin-bottom: 10px;">Be patient, this one can take several minutes to load, since it's building the Docker container behind the scenes.</li>
+<li style="margin-bottom: 0;">Once it's ready, double check the SQL Server extension is installed. Click <strong style="color: #59317C;">Extensions</strong> in the left toolbar, search for <strong style="color: #59317C;">mssql</strong>, and click <strong style="color: #59317C;">Install</strong> on <strong style="color: #59317C;">SQL Server (mssql)</strong> if it isn't already.<br><img src="/content/2025/7428029-20275000469S/images/Image-mssql%20extension.png" alt="MSSQL extension in the VS Code Extensions Marketplace" style="max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid #B2B4B2;"></li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Build the Northwind Database</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Open the Explorer with Ctrl+Shift+E, and find the file <strong style="color: #59317C;">01-CreateDatabase.sql</strong>.</li>
+<li style="margin-bottom: 10px;">Double click it to open it. This file contains the SQL that creates and populates the Northwind database. Scroll through it to see the table and data setup, then leave it as is.</li>
+<li style="margin-bottom: 10px;">Open a terminal with Ctrl+Shift+backtick, then run this command:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;"><code>sqlcmd -S localhost,1433 -U sa -P P@ssw0rd -d master -i 01-CreateDatabase.sql</code></div>
+</li>
+<li style="margin-bottom: 0;">If it works, you'll see one line: <strong style="color: #59317C;">"Changed database context to 'Northwind'."</strong> If it doesn't, check for a typo and try again.</li>
+</ol>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin-top: 0; margin-bottom: 0; font-weight: 600; color: #59317C;">What that command does</p>
+<ul style="padding-left: 22px; margin: 10px 0 0 0;">
+<li style="margin-bottom: 6px;"><code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">sqlcmd</code> connects to SQL Server.</li>
+<li style="margin-bottom: 6px;"><code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">-S localhost,1433</code> is the server name and port.</li>
+<li style="margin-bottom: 6px;"><code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">-U sa</code> is the username, sa stands for server administrator.</li>
+<li style="margin-bottom: 6px;"><code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">-P P@ssw0rd</code> is the password for that account.</li>
+<li style="margin-bottom: 6px;"><code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">-d master</code> connects to the master database first, so we have a place to run the CREATE DATABASE command from.</li>
+<li style="margin-bottom: 0;"><code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">-i 01-CreateDatabase.sql</code> tells SQL Server which file to run.</li>
+</ul>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Connect to the Database and Create Your SQL File</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">SQL Server</strong> icon in the left sidebar, the one that looks like a cylinder, then click <strong style="color: #59317C;">Add Connection</strong>.</li>
+<li style="margin-bottom: 10px;">Fill in the fields: Server name <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">localhost,1433</code>, Database name <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">Northwind</code>, Authentication type SQL Login, User name <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">sa</code>, Password <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">P@ssw0rd</code>.</li>
+<li style="margin-bottom: 10px;">Press Enter to save the connection. You should see Northwind appear in the SQL Server panel.</li>
+<li style="margin-bottom: 0;">In the Explorer, right click and choose <strong style="color: #59317C;">New File</strong>. Name it <strong style="color: #59317C;">Module7Lab.sql</strong>. You'll write all your SQL in this file.</li>
+</ol>
+<div style="background-color: #f5f8e0; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">How to run a query in this file</p>
+<p style="margin: 0;">Type a statement, highlight it by clicking and dragging over it, right click, and choose <strong style="color: #59317C;">Execute Query</strong>. Results show up in the Results panel at the bottom. You can keep every statement you write this semester in this same file, just highlight only the one you want to run each time.</p>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Write and Run SELECT Queries</h2>
+<p style="margin-bottom: 12px;">Type each of these into Module7Lab.sql, highlighting and running each one before moving to the next.</p>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">First, tell SQL Server which database to use:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>USE Northwind;</code></div>
+</li>
+<li style="margin-bottom: 10px;"><strong>Retrieving all columns with *:</strong> the <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">*</code> wildcard grabs every column from a table at once.
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>SELECT * FROM Shippers;</code></div>
+</li>
+<li style="margin-bottom: 10px;"><strong>Sorting with ORDER BY:</strong> sorts records ascending by default, or descending if you add DESC.
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>SELECT TOP 5 ContactName, Country, Phone FROM Customers ORDER BY Country, ContactName;</code></div>
+</li>
+<li style="margin-bottom: 10px;"><strong>Filtering with WHERE:</strong> narrows results down to matching rows, here every order for customer ALFKI.
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>SELECT CustomerID, OrderDate, ShipCity FROM Orders WHERE CustomerID = 'ALFKI';</code></div>
+</li>
+<li style="margin-bottom: 0;"><strong>Combining tables with JOIN:</strong> JOIN links two tables that share a relationship, here CustomerID connects Customers and Orders.
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>SELECT TOP 5 c.CompanyName, o.OrderDate FROM Customers AS c JOIN Orders AS o ON c.CustomerID = o.CustomerID WHERE c.CompanyName = 'QUICK-Stop';</code></div>
+</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 7 Lab SELECT queries</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong>. Go to your repository on GitHub.com and confirm your Module7Lab.sql file shows up there.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace Before You Move On</h2>
+<p style="margin-bottom: 12px;">This is the step people skip, and it's the one that causes the most trouble. A Codespace left running eats into your monthly free hours whether you're touching the keyboard or not, and running out mid-semester means you can't work on labs until your hours reset. Take the thirty seconds now.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 1 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 1 submission textbox in D2L and click Submit. You're not done yet, Part 2 is required too.</li>
+</ol>
+<p style="margin: 15px 0 0 0; color: #ffffff;">Running short on time? Turn in a rough draft, meaning any code you've written so far, by the due date so you don't get a zero. Then revise and resubmit by 4 PM on the Thursday of the last week of the semester.</p>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">You'll write your own INSERT, UPDATE, and DELETE statements this time, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Background: Modifying Data</h2>
+<p style="margin-bottom: 12px;"><strong>INSERT</strong> adds new rows to a table. You list the columns you're filling in, and a VALUES clause with the data for each one.</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 15px; font-family: 'Courier New', monospace; font-size: 14px;"><code>INSERT INTO Customers (CustomerID, ContactName, CompanyName, Country) VALUES ('ALICE', 'Alice Johnson', 'Wonderful Widgets', 'USA');</code></div>
+<p style="margin-bottom: 12px;"><strong>UPDATE</strong> modifies existing rows. The SET clause names the column to change, and WHERE limits it to the row or rows you actually mean to change.</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 15px; font-family: 'Courier New', monospace; font-size: 14px;"><code>UPDATE Customers SET ContactName = 'Maria Anders' WHERE CustomerID = 'ALFKI';</code></div>
+<p style="margin-bottom: 0;"><strong>DELETE</strong> removes rows. Always include a WHERE clause, or you'll delete every row in the table.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Reopen Your Codespace</h2>
+<p style="margin: 0;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a>, sign in, click the hamburger menu, click <strong style="color: #59317C;">Codespaces</strong>, and reopen your existing Codespace from Part 1.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Write Your Own INSERT Statement</h2>
+<p style="margin-bottom: 12px;">In Module7Lab.sql, following the same pattern as the INSERT example above, write your own statement that adds a new customer to the Customers table with a CustomerID of <strong>YOU01</strong>, your own name as the ContactName, a company name you make up, and your country. Highlight it, right click, and choose <strong style="color: #59317C;">Execute Query</strong>.</p>
+<p style="margin: 0;">Then write a SELECT statement, following the pattern from Step 5, that retrieves the row you just inserted to confirm it worked.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Write Your Own UPDATE Statement</h2>
+<p style="margin-bottom: 12px;">Following the same pattern as the UPDATE example above, write your own statement that changes the CompanyName on the YOU01 row you just inserted to something new. Run it.</p>
+<p style="margin: 0;">Then write another SELECT statement to confirm the CompanyName actually changed.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 10: Write Your Own DELETE Statement</h2>
+<p style="margin-bottom: 12px;">Following the DELETE pattern above, write your own statement that removes the YOU01 row. Since you inserted it yourself and nothing else references it, this one should succeed without any errors.</p>
+<p style="margin: 0;">Run a final SELECT for CustomerID = 'YOU01' to confirm the row is gone.</p>
+</div>
+
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #489FDF;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Why DELETE can fail: a real world example</p>
+<p style="margin-bottom: 10px;">Try running this statement, which deletes an order that already exists in Northwind:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 10px; font-family: 'Courier New', monospace; font-size: 14px;"><code>DELETE FROM Orders WHERE OrderID = 10248;</code></div>
+<p style="margin: 0;">You'll get an error instead of a deleted row. That's because the Order Details table still has records pointing at OrderID 10248, a foreign key constraint. SQL Server won't let you delete an order while other rows still depend on it. You'd need to delete those Order Details rows first. This is the database protecting you from leaving orphaned data behind, not a bug.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 11: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 7 Lab INSERT UPDATE DELETE</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong>. Go to your repository on GitHub.com and verify your latest Module7Lab.sql shows up there.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace</h2>
+<p style="margin-bottom: 12px;">Same reminder as Part 1, and it matters just as much here. Don't leave this running.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 2 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 2 submission textbox in D2L and click Submit. Congratulations on finishing Module 7.</li>
+</ol>
+<p style="margin: 15px 0 0 0; color: #ffffff;">Running short on time? Turn in a rough draft, meaning any code you've written so far, by the due date so you don't get a zero. Then revise and resubmit by 4 PM on the Thursday of the last week of the semester.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Alternative: Completing This Lab on Your Own Windows Computer</h2>
+<p style="margin-bottom: 12px;">If you'd rather work locally on a Windows laptop instead of in the cloud, here's the short version. You'll need Visual Studio Code, an internet connection, and your GitHub account.</p>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;"><strong>Install Git</strong>, from the <a rel="noopener" href="https://git-scm.com/downloads" style="color: #1976d2; text-decoration: underline;" target="_blank">Git downloads page</a>, accepting the defaults. Confirm it worked with <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">git --version</code> in a terminal.</li>
+<li style="margin-bottom: 10px;"><strong>Install SQL Server Express</strong>, the free edition, from the <a rel="noopener" href="https://www.microsoft.com/en-us/sql-server/sql-server-downloads" style="color: #1976d2; text-decoration: underline;" target="_blank">SQL Server downloads page</a>. Choose the Basic install. Note the server name it gives you at the end, usually <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">localhost\SQLEXPRESS</code>.</li>
+<li style="margin-bottom: 10px;"><strong>Install the SQL Server command line tools (sqlcmd)</strong> if they weren't already bundled with SQL Server Express. Check with <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">sqlcmd -?</code> in a terminal first.</li>
+<li style="margin-bottom: 10px;"><strong>Install the mssql extension</strong> in VS Code, the same one from Step 2 above.</li>
+<li style="margin-bottom: 10px;"><strong>Fork and clone the repository:</strong> fork <a rel="noopener" href="https://github.com/marylebens/sqlserver" style="color: #1976d2; text-decoration: underline;" target="_blank">the class SQL repository</a>, then in a terminal run <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">git clone https://github.com/YOUR_USERNAME/sqlserver.git</code> and open that folder in VS Code.</li>
+<li style="margin-bottom: 10px;"><strong>Build the database:</strong> run <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">sqlcmd -S localhost\SQLEXPRESS -E -d master -i 01-CreateDatabase.sql</code>. The <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">-E</code> flag uses Windows Authentication, so there's no username or password to remember.</li>
+<li style="margin-bottom: 10px;"><strong>Connect in VS Code:</strong> same as Step 4 above, but with Server name <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">localhost\SQLEXPRESS</code> and Authentication type Windows Authentication instead of a username and password.</li>
+<li style="margin-bottom: 10px;"><strong>Complete the lab:</strong> create Module7Lab.sql, run <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">USE Northwind;</code> first, then work through Steps 5 and 8 through 10 above exactly the same way.</li>
+<li style="margin-bottom: 0;"><strong>Commit and push:</strong> in the terminal, run <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">git add .</code>, then <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">git commit -m "Module 7 Lab"</code>, then <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">git push</code>. If GitHub asks for a password, use a Personal Access Token instead, found under GitHub Settings, Developer Settings, Personal Access Tokens.</li>
+</ol>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Common problems on your own computer</p>
+<p style="margin-bottom: 6px;"><strong>sqlcmd not recognized:</strong> close and reopen your terminal after installing. If it still fails, find where sqlcmd installed and add that folder to your system PATH.</p>
+<p style="margin-bottom: 6px;"><strong>Can't connect to the server:</strong> open Services from the Start menu, find SQL Server (SQLEXPRESS), and make sure it says Running.</p>
+<p style="margin-bottom: 0;"><strong>On a Mac, not Windows:</strong> SQL Server Express only runs on Windows. Complete this lab in the cloud instead, or use a Remote Desktop connection to an ITEC lab computer, see Resources on the course home page.</p>
+</div>
+</div>
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Fork image created using Microsoft Copilot.</li>
+<li style="margin-bottom: 8px;">Northwind ERD created using Eraser.io.</li>
+<li style="margin-bottom: 8px;">Screenshots, code, and instructions by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 0;">This lab is licensed under Creative Commons BY-NC-SA 4.0 and can be reused by other educators at nonprofits as long as attribution is given.</li>
+</ul>
+</div>
