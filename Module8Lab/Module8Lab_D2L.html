@@ -1,0 +1,213 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 8 Lab: Pokemon and LINQ</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">Let's learn how to query a list of data without writing a single loop by hand.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction</h2>
+<p style="margin-bottom: 12px;">In this lab you'll use LINQ to query a list of Pokemon and find out which ones are ready to evolve, based on their level. We're using a simple rule, level 16 or higher, but you could expand this with more properties and conditions to match the real evolution rules from the games.</p>
+<p style="margin: 0;">Pokemon are fictional creatures trainers capture and train, forming bonds with them as they grow. Evolution happens when a Pokemon transforms into a different species, usually gaining new abilities and getting stronger.</p>
+<img src="/content/2025/7428029-20275000469S/images/Pikachu%20by%20March%20Verch%20under%20Creative%20Commons%202.jpeg" alt="A pile of Pikachu stuffed toys" style="max-width: 220px; display: block; margin: 15px auto 0; border-radius: 10px;">
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: Three Parts of a Query Operation</h2>
+<p style="margin-bottom: 12px;">Every LINQ query operation is really three separate steps:</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Obtain the data source, in our case a List of Pokemon.</li>
+<li style="margin-bottom: 8px;">Create the query, the from/where/orderby/select expression that describes what you want.</li>
+<li style="margin-bottom: 0;">Execute the query, which happens when you actually loop through the results or otherwise use them. LINQ queries are lazy, they don't run until something asks for the data.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start</h2>
+<p style="margin: 0;">You'll need your GitHub account and your one shared Codespace from the Module 1 Lab. If you haven't finished that lab yet, go do that first, then come back here. If you haven't signed up for the GitHub Student Developer Pack yet, this is still a good week to knock that out, on the <a rel="noopener" href="https://education.github.com/pack/join" style="color: #1976d2; text-decoration: underline;" target="_blank">Student Developer Pack signup page</a>.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 0: Reopen Your Codespace and Open the Module8Lab Folder</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in.</li>
+<li style="margin-bottom: 10px;">Click the hamburger menu, then <strong style="color: #59317C;">Codespaces</strong>, then click on the name of your existing Codespace to reopen it. You've already got the one Codespace you'll use all semester.</li>
+<li style="margin-bottom: 10px;">In the Explorer, expand the <strong style="color: #59317C;">Module8Lab</strong> folder, then the <strong style="color: #59317C;">Module8Lab</strong> project folder inside it. Pokemon.cs is already written, and Program.cs has TODO comments marking where your code goes.</li>
+<li style="margin-bottom: 0;">Open a terminal, and make sure you're inside the inner Module8Lab project folder before you continue.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Obtain the Data Source</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Program.cs</strong> and replace the first TODO comment with this list of sample Pokemon:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">var pokemons = new List&lt;Pokemon&gt;
+{
+    new Pokemon { Id = 1, Name = "Bulbasaur", Type = "Grass", Level = 15 },
+    new Pokemon { Id = 2, Name = "Charmander", Type = "Fire", Level = 36 },
+    new Pokemon { Id = 3, Name = "Squirtle", Type = "Water", Level = 10 },
+    new Pokemon { Id = 4, Name = "Pikachu", Type = "Electric", Level = 22 },
+    new Pokemon { Id = 5, Name = "Eevee", Type = "Normal", Level = 25 }
+};</pre>
+</div>
+<div style="background-color: #f5f8e0; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #ADCB00;">
+<p style="margin: 0;"><strong style="color: #59317C;">Watch your capitalization:</strong> <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">List&lt;Pokemon&gt;</code> uses an uppercase P, matching the class name. C# is case sensitive, so a lowercase <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">pokemon</code> would cause a build error.</p>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Create the Query</h2>
+<p style="margin-bottom: 12px;">Replace the second TODO comment with this LINQ query, which finds every Pokemon at level 16 or higher and sorts the results by level:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">var readyToEvolve = from p in pokemons
+                    where p.Level >= 16
+                    orderby p.Level
+                    select p;</pre>
+</div>
+<p style="margin: 0;">Read this almost like English: from each Pokemon p in the list, where its Level is 16 or more, order the results by Level, and select the whole Pokemon object.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Execute the Query</h2>
+<p style="margin-bottom: 12px;">Replace the third TODO comment with:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">Console.WriteLine("Pokemon Ready to Evolve:");
+foreach (var p in readyToEvolve)
+{
+    Console.WriteLine($"Name: {p.Name}, Type: {p.Type}, Level: {p.Level}");
+}</pre>
+</div>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin: 0;">This foreach loop is the moment the query actually runs. Everything before this just described what you wanted, this line is what asks for it.</p>
+</div>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Before You Run It: Predict the Output</p>
+<p style="margin: 0;">Looking at the five Pokemon above, which ones do you expect readyToEvolve to include, and in what order? Write down your prediction before running the code in Step 4.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Run and Check Your Prediction</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 0;">Confirm you see Pikachu, level 22, then Eevee, level 25, then Charmander, level 36, in that order, matching your prediction.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 8 Lab Pokemon LINQ</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace Before You Move On</h2>
+<p style="margin-bottom: 12px;">This is the step people skip, and it's the one that causes the most trouble. A Codespace left running eats into your monthly free hours whether you're touching the keyboard or not, and running out mid-semester means you can't work on labs until your hours reset. Take the thirty seconds now.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 1 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 1 submission textbox in D2L and click Submit. You're not done yet, Part 2 is required too.</li>
+</ol>
+<p style="margin: 15px 0 0 0; color: #ffffff;">Running short on time? Turn in a rough draft, meaning any code you've written so far, by the due date so you don't get a zero. Then revise and resubmit by 4 PM on the Thursday of the last week of the semester.</p>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">You'll write two more LINQ queries yourself this time, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<p style="margin: 0;">In Part 1 you typed a query that was already written out for you. Now you'll write your own version, from scratch, adding a battle matchup scenario to the same app. This is required, not optional, since writing the query yourself is what actually builds the skill.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Reopen Your Codespace</h2>
+<p style="margin: 0;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a>, sign in, and reopen your existing Codespace, same as Step 0.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Write Your Own Water Type Query</h2>
+<p style="margin-bottom: 12px;">You're battling a friend whose team is all fire type Pokemon, and water is strong against fire. Below your existing code in Program.cs, following the same three step pattern from Steps 1 through 3, write your own LINQ query called <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">waterTypes</code> that finds every Pokemon in your list with a Type of "Water".</p>
+<p style="margin: 0;">Then write a foreach loop that prints each one's Name and Level, with a heading like "Water Types Ready to Battle:" above it.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Write Your Own Strongest Pokemon Query</h2>
+<p style="margin-bottom: 12px;">Below that, write a second LINQ query called <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">strongestFirst</code> that selects every Pokemon in your list, sorted by Level from highest to lowest instead of lowest to highest. You'll need <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">orderby p.Level descending</code> instead of the plain orderby from Step 2.</p>
+<p style="margin: 0;">Print the results with a foreach loop and a heading like "Strongest to Weakest:".</p>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Before You Run It: Predict the Output</p>
+<p style="margin: 0;">Which Pokemon do you expect in waterTypes? What order do you expect strongestFirst to print in? Write down both predictions before running the code in Step 9.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Run and Check Your Predictions</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 0;">Confirm both new sections print, and that they match your predictions from Step 8.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 10: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 8 Lab water type and strongest queries</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace</h2>
+<p style="margin-bottom: 12px;">Same reminder as Part 1, and it matters just as much here. Don't leave this running.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 2 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 2 submission textbox in D2L and click Submit. Congratulations on finishing Module 8.</li>
+</ol>
+<p style="margin: 15px 0 0 0; color: #ffffff;">Running short on time? Turn in a rough draft, meaning any code you've written so far, by the due date so you don't get a zero. Then revise and resubmit by 4 PM on the Thursday of the last week of the semester.</p>
+</div>
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Screenshots and text by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 8px;">Photo: Pikachu by Marco Verch under <a rel="noopener" href="https://creativecommons.org/licenses/by/2.0/" style="color: #1976d2; text-decoration: underline;" target="_blank">Creative Commons 2.0</a>.</li>
+<li style="margin-bottom: 0;">This lab is licensed under Creative Commons BY-NC-SA 4.0 and can be reused by other educators at nonprofits as long as attribution is given.</li>
+</ul>
+</div>
