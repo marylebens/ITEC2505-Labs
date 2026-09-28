@@ -1,0 +1,11 @@
+@page
+@model ConfirmationModel
+@{
+    ViewData["Title"] = "You're Signed Up";
+}
+<div class="alert alert-success mt-4">
+    <h1>You're signed up, @Model.FullName!</h1>
+    <p>We reserved @Model.TicketCount ticket(s) for you.</p>
+    <p>A confirmation will be sent to @Model.Email.</p>
+</div>
+<a class="btn btn-secondary" asp-page="/Signup">Sign Up Someone Else</a>
