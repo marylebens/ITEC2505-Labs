@@ -1,0 +1,23 @@
+@page
+@model SuppliersModel
+@{
+    ViewData["Title"] = "Northwind Suppliers";
+}
+<h1>@ViewData["Title"]</h1>
+<table class="table">
+    <thead><tr>
+        <th>Supplier ID</th>
+        <th>Company Name</th>
+        <th>Country</th>
+    </tr></thead>
+    <tbody>
+        @foreach (var supplier in Model.Suppliers)
+        {
+            <tr>
+                <td>@supplier.SupplierID</td>
+                <td>@supplier.CompanyName</td>
+                <td>@supplier.Country</td>
+            </tr>
+        }
+    </tbody>
+</table>
