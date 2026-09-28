@@ -3,3 +3,7 @@
    single .cshtml file. *@
 @namespace Module3Lab.Pages
 @using Microsoft.AspNetCore.Mvc.RazorPages
+@* This line turns on tag helpers, which is what makes a plain
+   <form method="post"> automatically include the hidden security token
+   Razor Pages requires. Without it, submitting the form would fail. *@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
