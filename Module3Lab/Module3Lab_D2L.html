@@ -224,40 +224,160 @@ ShowResults = true;
 </div>
 
 <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
-<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Commit, Push, and Stop Your Codespace</h2>
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Commit and Push Your Work</h2>
 <ol style="padding-left: 22px;">
 <li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
 <li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 3 Lab taco and burrito decision maker</strong>.</li>
-<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
-<li style="margin-bottom: 0;">Stop your Codespace: hamburger menu, <strong style="color: #59317C;">Codespaces</strong>, find yours, three dots, <strong style="color: #59317C;">Stop codespace</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
 </ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace Before You Move On</h2>
+<p style="margin-bottom: 12px;">This is the step people skip, and it's the one that causes the most trouble. A Codespace left running eats into your monthly free hours whether you're touching the keyboard or not, and running out mid-semester means you can't work on labs until your hours reset. Take the thirty seconds now.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 1 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 1 submission textbox in D2L and click Submit. You're not done yet, Part 2 is required too.</li>
+</ol>
+<p style="margin: 15px 0 0 0; color: #ffffff;">Running short on time? Turn in a rough draft, meaning any code you've written so far, by the due date so you don't get a zero. Then revise and resubmit by 4 PM on the Thursday of the last week of the semester.</p>
 </div>
 
 <hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
 
 <div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
 <h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
-<p style="margin: 4px 0 0 0; color: #ffffff;">Optional stretch practice, using the exact same skills from Part 1.</p>
+<p style="margin: 4px 0 0 0; color: #ffffff;">You'll write your own if/else if/else, ternary, and switch statement this time, using the exact same skills from Part 1.</p>
 </div>
 
 <div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-<p style="margin: 0 0 12px 0;">If you finish early in class, or want more practice at home, try one or more of these. None of this is required, and it's all the same skill set from Part 1: editing Index.cshtml.cs and Index.cshtml, then running and testing.</p>
+<p style="margin: 0;">In Part 1 you typed conditionals that were already written out for you. Now you'll write your own version of each of the three kinds, from scratch, adding a Spice Level question to the same app. This is required, not optional, since writing the conditional yourself is what actually builds the skill.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Reopen Your Codespace and Add the Spice Level Question</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a>, sign in, and reopen your existing Codespace, same as Step 1.</li>
+<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">Pages/Index.cshtml</strong> inside your Module3Lab project folder.</li>
+<li style="margin-bottom: 0;">Inside the form, right after the hunger level input, add a second question:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;">&lt;label&gt;How spicy do you want it? (1-10)&lt;/label&gt;
+&lt;input type="number" name="spiceLevel" min="1" max="10" required /&gt;</pre>
+</div>
+Save the file.
+</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Add the SpiceLevel Property and Parameter</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">Pages/Index.cshtml.cs</strong>.</li>
+<li style="margin-bottom: 10px;">Right next to your HungerLevel property, add a new one for SpiceLevel:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px;"><code>public int SpiceLevel { get; set; }</code></div>
+</li>
+<li style="margin-bottom: 0;">Change the OnPost method signature so it also accepts the new spice level from the form, and set the property at the top of the method, the same way HungerLevel is set:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px;"><code>public void OnPost(int hungerLevel, int spiceLevel)</code></div>
+</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Write Your Own if/else if/else Statement</h2>
+<p style="margin-bottom: 12px;">Add a new property called <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">SpiceMessage</code>, a string, right next to your other message properties.</p>
+<p style="margin-bottom: 12px;">Now write your own if/else if/else statement inside OnPost, using the same pattern as the HungerMessage code above it, that sets SpiceMessage based on SpiceLevel:</p>
 <ul style="padding-left: 22px; margin-bottom: 0;">
-<li style="margin-bottom: 8px;">Add more food options to the Decision Maker, like tamales or enchiladas.</li>
-<li style="margin-bottom: 8px;">Customize the messages inside the if statement or the switch statement.</li>
-<li style="margin-bottom: 8px;">Change the colors and styles in Index.cshtml to match your own taste.</li>
-<li style="margin-bottom: 0;">Add images of tacos and burritos to make the page more visually interesting.</li>
+<li style="margin-bottom: 8px;">If SpiceLevel is 8 or higher, set SpiceMessage to something like "Whoa, that's hot. Keep water nearby."</li>
+<li style="margin-bottom: 8px;">Otherwise, if SpiceLevel is 4 or higher, set SpiceMessage to something like "Nice kick, that'll wake you up."</li>
+<li style="margin-bottom: 0;">Otherwise, set SpiceMessage to something like "Nice and mild."</li>
 </ul>
 </div>
 
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Write Your Own Ternary Operator</h2>
+<p style="margin-bottom: 12px;">Add a new property called <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">WantsExtraSalsa</code>, a string.</p>
+<p style="margin: 0;">Write your own ternary operator, following the same pattern as the Recommendation line above it, that sets WantsExtraSalsa to "Yes" if SpiceLevel is 5 or higher, and "No" otherwise.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 10: Write Your Own switch Statement</h2>
+<p style="margin-bottom: 12px;">Add a new property called <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">SpiceRating</code>, a string.</p>
+<p style="margin-bottom: 12px;">Write your own switch statement, following the same pattern as the EncouragementMessage switch above it, that sets SpiceRating based on SpiceLevel:</p>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">9 or 10: "Fire alarm territory."</li>
+<li style="margin-bottom: 8px;">7 or 8: "Solid heat."</li>
+<li style="margin-bottom: 8px;">4, 5, or 6: "Just right for most people."</li>
+<li style="margin-bottom: 0;">Anything else: "Barely spicy at all."</li>
+</ul>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Before You Run It: Predict the Output</p>
+<p style="margin-bottom: 10px;">Before moving on to Step 11, predict what your app will show for a spice level of 3, a spice level of 6, and a spice level of 9. Jot down the SpiceMessage, WantsExtraSalsa, and SpiceRating for each one.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 11: Display Your New Results</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Index.cshtml</strong> and add these lines right after the EncouragementMessage line inside the @if (Model.ShowResults) block:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;">&lt;p&gt;@Model.SpiceMessage&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Want extra salsa?&lt;/strong&gt; @Model.WantsExtraSalsa&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Spice rating:&lt;/strong&gt; @Model.SpiceRating&lt;/p&gt;</pre>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 12: Run, Test, and Check Your Predictions</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab, hover over the forwarded address, and click the globe icon to open your app.</li>
+<li style="margin-bottom: 10px;">Try spice levels 3, 6, and 9, and check the results against your predictions from Step 10.</li>
+<li style="margin-bottom: 0;">When you're done testing, go back to the terminal and press Ctrl+C to stop the server.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 13: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 3 Lab spice level conditionals</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace</h2>
+<p style="margin-bottom: 12px;">Same reminder as Part 1, and it matters just as much here. Don't leave this running.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
 <div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
-<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">How to Submit Your Lab</h1>
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 2 of Your Lab</h1>
 <ol style="padding-left: 22px; color: #ffffff;">
 <li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
 <li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
 <li style="margin-bottom: 10px;">Copy the URL.</li>
-<li style="margin-bottom: 0;">Paste the URL into the submission textbox at the bottom of this lab in D2L and click Submit. Congratulations on finishing Module 3, go celebrate with a taco.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 2 submission textbox in D2L and click Submit. Congratulations on finishing Module 3, go celebrate with a taco.</li>
 </ol>
+<p style="margin: 15px 0 0 0; color: #ffffff;">Running short on time? Turn in a rough draft, meaning any code you've written so far, by the due date so you don't get a zero. Then revise and resubmit by 4 PM on the Thursday of the last week of the semester.</p>
 </div>
 
 <div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
