@@ -1,0 +1,200 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 11 Lab: CRUD Operations in the Rubber Duck Store</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">Let's give programmers a store for their debugging companions, and give ourselves practice with all four CRUD operations.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction <img src="/content/2025/7428029-20275000469S/images/coder_duck1.jpg" alt="A rubber duck sitting on a keyboard" style="width: 130px; height: 130px; float: right; margin-left: 15px; border-radius: 8px;"></h2>
+<p style="margin: 0;">Today we'll build a small web app that displays rubber ducks for sale, made for programmers to use while debugging. Along the way you'll practice CRUD: Create, Read, Update, and Delete, the four basic operations every database-backed app needs. We'll set up the database and the Read operation together, then you'll add Create, Update, and Delete yourself in Part 2.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: What Is CRUD?</h2>
+<p style="margin-bottom: 10px;">CRUD stands for the four things almost every app needs to do to its data:</p>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;"><strong>Create:</strong> add a new row, with an INSERT statement.</li>
+<li style="margin-bottom: 8px;"><strong>Read:</strong> look up existing rows, with a SELECT statement. We already practiced this in Modules 7, 9, and 10.</li>
+<li style="margin-bottom: 8px;"><strong>Update:</strong> change an existing row, with an UPDATE statement.</li>
+<li style="margin-bottom: 0;"><strong>Delete:</strong> remove a row, with a DELETE statement.</li>
+</ul>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start</h2>
+<p style="margin: 0;">You'll need your GitHub account and your one shared Codespace from the Module 1 Lab. This lab uses a SQLite database, a lightweight database that lives in a single file right inside your project, no Docker container needed this time.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Open the Module11Lab Folder</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in.</li>
+<li style="margin-bottom: 10px;">Click the hamburger menu, then <strong style="color: #59317C;">Codespaces</strong>, then click on the name of your existing Codespace to reopen it.</li>
+<li style="margin-bottom: 10px;">In the Explorer, expand the <strong style="color: #59317C;">Module11Lab</strong> folder, then the <strong style="color: #59317C;">RubberDuckStore</strong> project folder inside it. The project boilerplate, Bootstrap, and the Read operation are already wired up.</li>
+<li style="margin-bottom: 0;">Open a terminal, and make sure you're inside the RubberDuckStore project folder before you continue.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Build the Ducks Database</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Open <strong style="color: #59317C;">create_ducks_table.sql</strong> and take a look. It creates a Ducks table and inserts two sample ducks. Leave it as is.</li>
+<li style="margin-bottom: 0;">In the terminal, run:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>sqlite3 RubberDucks.db < create_ducks_table.sql</code></div>
+This creates a new file, RubberDucks.db, which is your entire database, and runs the script against it.
+</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Add Duck Images</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Download <a rel="noopener" href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou={orgUnitId}&amp;type=coursefile&amp;fileId=classic_debugger.jpg" style="color: #1976d2; text-decoration: underline;" target="_blank">the Classic Debugger duck image</a> and <a rel="noopener" href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou={orgUnitId}&amp;type=coursefile&amp;fileId=coder_duck.jpg" style="color: #1976d2; text-decoration: underline;" target="_blank">the Coder Duck image</a>.</li>
+<li style="margin-bottom: 10px;">In the Explorer, expand <strong style="color: #59317C;">wwwroot</strong>, then <strong style="color: #59317C;">images</strong>. Right click on the images folder and choose <strong style="color: #59317C;">Upload</strong>.</li>
+<li style="margin-bottom: 0;">Navigate to your Downloads folder, select both images, and click Open. Confirm both files now show up in the images folder.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Study the Read Operation</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/RubberDucks.cshtml.cs</strong>. Read through OnGet, OnPost, LoadDuckList, and GetDuckById carefully. This is the R in CRUD, a SELECT statement wrapped in a SqliteConnection, a SqliteCommand, and a while (reader.Read()) loop, the same ADO.NET pattern from Modules 9 and 10, just talking to SQLite instead of SQL Server this time.</p>
+<p style="margin: 0;">Then open <strong style="color: #59317C;">Pages/RubberDucks.cshtml</strong> and confirm you can trace how the dropdown, the form, and the @if (Model.SelectedDuck != null) block work together to show the picked duck's details.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Run and Test the Read Operation</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab, hover over the forwarded address, and click the globe icon to open your app.</li>
+<li style="margin-bottom: 10px;">Select a duck from the dropdown and click <strong style="color: #59317C;">Show Duck</strong>.</li>
+<li style="margin-bottom: 0;">Confirm the duck's name, description, price, and image all display correctly.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 11 Lab Read operation</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace Before You Move On</h2>
+<p style="margin-bottom: 12px;">This is the step people skip, and it's the one that causes the most trouble. A Codespace left running eats into your monthly free hours whether you're touching the keyboard or not, and running out mid-semester means you can't work on labs until your hours reset. Take the thirty seconds now.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 1 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 1 submission textbox in D2L and click Submit. You're not done yet, Part 2 is required too.</li>
+</ol>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">You'll add Create, Update, and Delete yourself this time, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<p style="margin: 0;">In Part 1 you studied a working Read operation. Now you'll write the other three CRUD operations yourself, each one following the exact same connection, command, and execute pattern, just with a different SQL statement. This is required, not optional, since the whole point of this module is proving you can do all four.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Reopen Your Codespace</h2>
+<p style="margin: 0;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a>, sign in, and reopen your existing Codespace, same as Step 1.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Write the Create Operation</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/RubberDucks.cshtml.cs</strong>. Replace the first TODO comment with a method:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>public IActionResult OnPostAdd(string name, string description, decimal price, string imageFileName)</code></div>
+<p style="margin-bottom: 12px;">Inside it, following the exact same connection-and-command pattern as LoadDuckList, open a SqliteConnection, create a command whose CommandText is an INSERT statement, add parameters for @Name, @Description, @Price, and @ImageFileName using command.Parameters.AddWithValue for each, then call command.ExecuteNonQuery() instead of ExecuteReader, since INSERT doesn't return rows. Call LoadDuckList() and return Page() at the end, same as OnPost does.</p>
+<p style="margin-bottom: 12px;">Then open <strong style="color: #59317C;">Pages/RubberDucks.cshtml</strong> and replace the matching TODO comment with a form: text inputs for name, description, and imageFileName, a number input for price, and a submit button with <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">asp-page-handler="Add"</code> so it calls OnPostAdd.</p>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin: 0;"><strong style="color: #59317C;">Why parameters instead of building the SQL string by hand:</strong> AddWithValue keeps user-entered text from being interpreted as part of the SQL command itself. Typing the values directly into the SQL string is a security risk called SQL injection, and parameters are how you avoid it.</p>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Write the Update Operation</h2>
+<p style="margin-bottom: 12px;">Replace the second TODO comment in RubberDucks.cshtml.cs with a method:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>public IActionResult OnPostUpdatePrice(int duckId, decimal newPrice)</code></div>
+<p style="margin-bottom: 12px;">Inside it, open a connection, create a command whose CommandText is an UPDATE statement that sets Price to @NewPrice where Id equals @DuckId, add both parameters, call ExecuteNonQuery, then LoadDuckList() and return Page().</p>
+<p style="margin: 0;">In RubberDucks.cshtml, replace the matching TODO comment with a form: a dropdown for duckId using <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">asp-items="Model.DuckList"</code>, a number input for newPrice, and a submit button with <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">asp-page-handler="UpdatePrice"</code>.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 10: Write the Delete Operation</h2>
+<p style="margin-bottom: 12px;">Replace the third TODO comment in RubberDucks.cshtml.cs with a method:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>public IActionResult OnPostDelete(int duckId)</code></div>
+<p style="margin-bottom: 12px;">Inside it, open a connection, create a command whose CommandText is a DELETE statement that removes the row where Id equals @DuckId, add that parameter, call ExecuteNonQuery, then LoadDuckList() and return Page().</p>
+<p style="margin: 0;">In RubberDucks.cshtml, replace the last TODO comment with a form: a dropdown for duckId, and a submit button with <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">asp-page-handler="Delete"</code>.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 11: Run and Test All Four Operations</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter, then open your app from the PORTS tab.</li>
+<li style="margin-bottom: 10px;"><strong>Create:</strong> add a new duck of your own design. Use one of the two existing image filenames for now, since you haven't uploaded a third image. Confirm it shows up in the dropdown afterward.</li>
+<li style="margin-bottom: 10px;"><strong>Update:</strong> pick a duck and change its price. Use Read to confirm the new price stuck.</li>
+<li style="margin-bottom: 10px;"><strong>Delete:</strong> pick a duck and delete it. Confirm it's gone from the dropdown afterward.</li>
+<li style="margin-bottom: 0;">When you're done testing, go back to the terminal and press Ctrl+C to stop the server.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 12: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 11 Lab Create Update Delete</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace</h2>
+<p style="margin-bottom: 12px;">Same reminder as Part 1, and it matters just as much here. Don't leave this running.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 2 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 2 submission textbox in D2L and click Submit. Congratulations on finishing Module 11, you've now done all four CRUD operations.</li>
+</ol>
+</div>
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Lab instructions and code by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 0;">This lab is licensed under Creative Commons BY-NC-SA 4.0 and can be reused by other educators at nonprofits as long as attribution is given.</li>
+</ul>
+</div>
