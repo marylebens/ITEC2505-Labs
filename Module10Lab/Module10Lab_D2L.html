@@ -1,0 +1,158 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 10 Lab: SQL and Razor Practice</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">A lighter week to cement the ADO.NET pattern from Module 9 before we move on.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction</h2>
+<p style="margin: 0;">This week is all practice, no new concepts. You already know how to connect a Razor Pages app to SQL Server with ADO.NET from Module 9. This lab gives you a fully working example to study, then asks you to build a matching page yourself, from a blank file, for a different Northwind table. Repetition is how this pattern actually sticks.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start</h2>
+<p style="margin: 0;">You'll need your GitHub account and your one shared Codespace, and the same SQL Server container and Northwind database you built in Module 9. If your container has stopped, you'll start it back up in Step 1 below.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Restart SQL Server</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a>, sign in, click the hamburger menu, click <strong style="color: #59317C;">Codespaces</strong>, and reopen your existing Codespace.</li>
+<li style="margin-bottom: 10px;">Open a terminal and check whether your SQL Server container is still running: <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">docker ps</code></li>
+<li style="margin-bottom: 0;">If you don't see sqlserver in the list, start it back up: <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">docker start sqlserver</code>. Your Northwind database is still there, Docker containers keep their data when you stop and start them, only deleting the container erases it.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Open the Module10Lab Folder</h2>
+<p style="margin: 0;">In the Explorer, expand the <strong style="color: #59317C;">Module10Lab</strong> folder, then the <strong style="color: #59317C;">NorthwindPractice</strong> project folder inside it. Open a terminal and make sure you're inside that project folder before you continue.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Read Through the Working Suppliers Page</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">appsettings.json</strong> first, and notice the connection string is already sitting there under ConnectionStrings, so you don't have to type it into every page's code.</p>
+<p style="margin-bottom: 12px;">Now open <strong style="color: #59317C;">Pages/Suppliers.cshtml.cs</strong>. This page is complete and working, nothing to add. Read through it and confirm you recognize every piece from Module 9: the connection string coming from configuration, SqlConnection opening it, SqlCommand holding the SELECT statement, and SqlDataReader looping through the results with while (reader.Read()).</p>
+<p style="margin: 0;">Then open <strong style="color: #59317C;">Pages/Suppliers.cshtml</strong> and confirm the table markup matches the same @foreach pattern from Module 9's Customers page.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Run and Test the Suppliers Page</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab, hover over the forwarded address, and click the globe icon to open your app.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Suppliers</strong> in the nav bar and confirm you see a real table of Northwind suppliers and their countries.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 10 Lab reviewed Suppliers page</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace Before You Move On</h2>
+<p style="margin-bottom: 12px;">This is the step people skip, and it's the one that causes the most trouble. A Codespace left running eats into your monthly free hours whether you're touching the keyboard or not, and running out mid-semester means you can't work on labs until your hours reset. Take the thirty seconds now.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 1 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 1 submission textbox in D2L and click Submit. You're not done yet, Part 2 is required too.</li>
+</ol>
+<p style="margin: 15px 0 0 0; color: #ffffff;">Running short on time? Turn in a rough draft, meaning any code you've written so far, by the due date so you don't get a zero. Then revise and resubmit by 4 PM on the Thursday of the last week of the semester.</p>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">You'll build the whole Categories page yourself this time, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<p style="margin: 0;">The Categories nav link is already sitting in your layout, pointing at a page that doesn't exist yet. This is required, not optional, since building the whole page yourself, without a TODO comment to fill in, is what actually proves you've got this pattern down.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Reopen Your Codespace and Restart SQL Server</h2>
+<p style="margin: 0;">Same as Step 1: reopen your Codespace, then run <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">docker ps</code> and <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">docker start sqlserver</code> if it isn't already running.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Create Categories.cshtml.cs</h2>
+<p style="margin-bottom: 12px;">In the Explorer, right click the Pages folder and choose <strong style="color: #59317C;">New File</strong>. Name it <strong style="color: #59317C;">Categories.cshtml.cs</strong>.</p>
+<p style="margin-bottom: 12px;">Following the exact same pattern as Suppliers.cshtml.cs, write a CategoriesModel class that takes IConfiguration in its constructor, a List of a new Category class, and an OnGet method that connects to the database using the same connection string lookup and fills the list.</p>
+<p style="margin: 0;">Your SQL statement should be <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">SELECT CategoryID, CategoryName, Description FROM Categories</code>, and your Category class needs CategoryID (int), CategoryName (string), and Description (string) properties.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Create Categories.cshtml</h2>
+<p style="margin: 0;">Right click the Pages folder again and create <strong style="color: #59317C;">Categories.cshtml</strong>. Following the exact same table pattern as Suppliers.cshtml, build a table with columns for Category ID, Category Name, and Description, looping through Model.Categories.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Run and Test</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab and click the globe icon to open your app.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Categories</strong> in the nav bar and confirm you see a real table of Northwind categories with their descriptions.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 10: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 10 Lab Categories page</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace</h2>
+<p style="margin-bottom: 12px;">Same reminder as Part 1, and it matters just as much here. Don't leave this running.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 2 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 2 submission textbox in D2L and click Submit. Congratulations on finishing Module 10.</li>
+</ol>
+<p style="margin: 15px 0 0 0; color: #ffffff;">Running short on time? Turn in a rough draft, meaning any code you've written so far, by the due date so you don't get a zero. Then revise and resubmit by 4 PM on the Thursday of the last week of the semester.</p>
+</div>
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Lab instructions and code by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 0;">This lab is licensed under Creative Commons BY-NC-SA 4.0 and can be reused by other educators at nonprofits as long as attribution is given.</li>
+</ul>
+</div>
