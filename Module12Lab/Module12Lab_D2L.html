@@ -1,0 +1,258 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 12 Lab: Razor Forms and Validation</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">Let's build a signup form that checks what people type before it accepts it.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction</h2>
+<p style="margin: 0;">Real web apps never trust what people type into a form. Someone leaves a field blank, mistypes an email address, or asks for negative tickets. In this lab you'll build a campus event signup form using the Razor framework's built in tools for handling exactly that: model binding, validation attributes, tag helpers, and redirecting to a confirmation page once everything checks out.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: What Happens When You Submit a Form</h2>
+<p style="margin-bottom: 12px;">Here's the full trip, start to finish, and it's worth reading twice because it's how nearly every website works:</p>
+<ol style="padding-left: 22px; margin-bottom: 12px;">
+<li style="margin-bottom: 8px;">Your browser asks the web server for the Signup page by sending a request to its URL. The server runs the page's <strong>OnGet</strong> method and sends back HTML, which your browser displays as a form.</li>
+<li style="margin-bottom: 8px;">You fill in the form and click submit. Your browser sends a second request to the same URL, but this time it's a <strong>POST</strong> request carrying everything you typed.</li>
+<li style="margin-bottom: 8px;">The server runs the page's <strong>OnPost</strong> method. <strong>Model binding</strong> automatically copies each value from the request into the matching C# property, so you never dig through the raw request yourself.</li>
+<li style="margin-bottom: 8px;">Razor checks every value against the <strong>validation attributes</strong> on those properties, like [Required] or [Range]. The result is stored in <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">ModelState.IsValid</code>.</li>
+<li style="margin-bottom: 0;">If something is wrong, the server sends the form back with error messages. If everything is fine, the server <strong>redirects</strong> your browser to a new URL, the Confirmation page, so the data isn't accidentally submitted twice if you refresh.</li>
+</ol>
+<p style="margin: 0;">A <strong>tag helper</strong> is a special attribute like <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">asp-for</code> that Razor turns into regular HTML before sending the page to your browser. You'll use asp-for to connect an input box to a C# property, and asp-validation-for to show that property's error message.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start</h2>
+<p style="margin: 0;">You'll need your GitHub account and your one shared Codespace from the Module 1 Lab. No database this time, we're focused on the form itself.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Open the Module12Lab Folder</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in.</li>
+<li style="margin-bottom: 10px;">Click the hamburger menu, then <strong style="color: #59317C;">Codespaces</strong>, then click on the name of your existing Codespace to reopen it.</li>
+<li style="margin-bottom: 10px;">In the Explorer, expand the <strong style="color: #59317C;">Module12Lab</strong> folder, then the <strong style="color: #59317C;">EventSignup</strong> project folder inside it. The project boilerplate, the nav bar, the home page, and the Confirmation page are already written.</li>
+<li style="margin-bottom: 0;">Open a terminal, and make sure you're inside the EventSignup project folder before you continue.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Look at the Confirmation Page</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Confirmation.cshtml.cs</strong>. Notice the three properties each have <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">[BindProperty(SupportsGet = true)]</code>. That tells Razor to fill them in from the URL's query string, the part after the question mark, when the page loads. That's how the Signup page will pass the person's info to this page.</p>
+<p style="margin: 0;">Then open <strong style="color: #59317C;">Pages/Confirmation.cshtml</strong> and notice how it displays those properties with @Model.FullName, @Model.Email, and @Model.TicketCount.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Add Properties with Validation Rules</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Signup.cshtml.cs</strong> and replace the first TODO comment with these three properties:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;">[BindProperty]
+[Required(ErrorMessage = "Please enter your full name.")]
+public string FullName { get; set; } = string.Empty;
+
+[BindProperty]
+[Required(ErrorMessage = "Please enter your email address.")]
+[EmailAddress(ErrorMessage = "That doesn't look like a valid email address.")]
+public string Email { get; set; } = string.Empty;
+
+[BindProperty]
+[Range(1, 5, ErrorMessage = "You can reserve between 1 and 5 tickets.")]
+public int TicketCount { get; set; }</pre>
+</div>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin: 0;"><strong style="color: #59317C;">What each piece does:</strong> [BindProperty] tells Razor to fill the property from the submitted form. [Required] rejects an empty value. [EmailAddress] rejects text that isn't shaped like an email. [Range] rejects numbers outside the limits you set. The text in ErrorMessage is exactly what the visitor will see.</p>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Check the Rules and Redirect</h2>
+<p style="margin-bottom: 12px;">Still in Signup.cshtml.cs, replace the TODO comment inside OnPost with this code:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;">if (!ModelState.IsValid)
+{
+    // Something broke a validation rule, so show the form again.
+    // The error messages appear automatically.
+    return Page();
+}
+
+// Everything checked out, so send the browser to the Confirmation
+// page and pass the data along in the URL.
+return RedirectToPage("Confirmation", new { FullName, Email, TicketCount });</pre>
+</div>
+<p style="margin: 0;">You can delete the leftover <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">return Page();</code> line at the bottom of OnPost, since both paths now return above it.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Build the Form</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Signup.cshtml</strong> and replace the placeholder paragraph with this form:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;">&lt;form method="post"&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label asp-for="FullName" class="form-label"&gt;&lt;/label&gt;
+        &lt;input asp-for="FullName" class="form-control" /&gt;
+        &lt;span asp-validation-for="FullName" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class="mb-3"&gt;
+        &lt;label asp-for="Email" class="form-label"&gt;&lt;/label&gt;
+        &lt;input asp-for="Email" class="form-control" /&gt;
+        &lt;span asp-validation-for="Email" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class="mb-3"&gt;
+        &lt;label asp-for="TicketCount" class="form-label"&gt;&lt;/label&gt;
+        &lt;input asp-for="TicketCount" class="form-control" /&gt;
+        &lt;span asp-validation-for="TicketCount" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;button type="submit" class="btn btn-primary"&gt;Reserve My Spot&lt;/button&gt;
+&lt;/form&gt;</pre>
+</div>
+<p style="margin: 0;">Each asp-for connects a label and an input to a C# property. Each asp-validation-for is an empty span that Razor fills in with that property's error message when validation fails.</p>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Before You Run It: Predict the Output</p>
+<p style="margin: 0;">What do you expect to see if you click Reserve My Spot with every box empty? What about with a valid name and email but a TicketCount of 9? Write down both predictions before running the app in Step 6.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Run and Test</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab, hover over the forwarded address, and click the globe icon to open your app. Click <strong style="color: #59317C;">Sign Up</strong> in the nav bar.</li>
+<li style="margin-bottom: 10px;">Click Reserve My Spot with everything empty, then with a bad email, then with 9 tickets, and compare each result to your predictions from Step 5.</li>
+<li style="margin-bottom: 10px;">Now fill the form in correctly and submit it. Look at the address bar on the Confirmation page. Your name, email, and ticket count are right there in the URL after the question mark. That's the query string, and it's how the Signup page handed your data to the Confirmation page.</li>
+<li style="margin-bottom: 0;">When you're done testing, go back to the terminal and press Ctrl+C to stop the server.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 12 Lab signup form with validation</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace Before You Move On</h2>
+<p style="margin-bottom: 12px;">This is the step people skip, and it's the one that causes the most trouble. A Codespace left running eats into your monthly free hours whether you're touching the keyboard or not, and running out mid-semester means you can't work on labs until your hours reset. Take the thirty seconds now.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 1 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 1 submission textbox in D2L and click Submit. You're not done yet, Part 2 is required too.</li>
+</ol>
+<p style="margin: 15px 0 0 0; color: #ffffff;">Running short on time? Turn in a rough draft, meaning any code you've written so far, by the due date so you don't get a zero. Then revise and resubmit by 4 PM on the Thursday of the last week of the semester.</p>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">You'll add two new fields with your own validation rules, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<p style="margin: 0;">In Part 1 you typed validation rules that were already written out for you. Now you'll write your own, for two new fields, and carry them all the way through to the Confirmation page. This is required, not optional, since writing the rules yourself is what actually builds the skill.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Reopen Your Codespace</h2>
+<p style="margin: 0;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a>, sign in, and reopen your existing Codespace, same as Step 1.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Write a Phone Number Field</h2>
+<p style="margin-bottom: 12px;">In Signup.cshtml.cs, following the same pattern as the Email property from Step 3, add a new property called <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">Phone</code>. It should be [BindProperty], [Required] with your own friendly error message, and use the <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">[Phone]</code> attribute, which rejects text that isn't shaped like a phone number, also with your own error message.</p>
+<p style="margin: 0;">In Signup.cshtml, following the same pattern as the Email block in Step 5, add a matching label, input, and validation span for Phone.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 10: Write a Special Requests Field</h2>
+<p style="margin-bottom: 12px;">In Signup.cshtml.cs, add a second new property called <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">SpecialRequests</code>. This one is optional, so don't use [Required], but do limit its length with <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">[StringLength(100, ErrorMessage = "...")]</code>, writing your own error message that tells the visitor the 100 character limit.</p>
+<p style="margin: 0;">In Signup.cshtml, add a matching label, input, and validation span for SpecialRequests.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 11: Carry Both Fields to the Confirmation Page</h2>
+<p style="margin-bottom: 12px;">Three small edits connect everything:</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">In the RedirectToPage line in Signup.cshtml.cs, add Phone and SpecialRequests to the list of values inside the curly braces, so they get passed along in the URL.</li>
+<li style="margin-bottom: 10px;">In Confirmation.cshtml.cs, following the same pattern as FullName and Email, add matching Phone and SpecialRequests properties with [BindProperty(SupportsGet = true)].</li>
+<li style="margin-bottom: 0;">In Confirmation.cshtml, add two paragraphs that display @Model.Phone and @Model.SpecialRequests, so the visitor sees them echoed back.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Before You Run It: Predict the Output</p>
+<p style="margin: 0;">What error message should appear if you type "abc" in the Phone box? What should happen if you type 150 characters in Special Requests? Write down both predictions, then check them in Step 12.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 12: Run, Test, and Check Your Predictions</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter, then open your app from the PORTS tab.</li>
+<li style="margin-bottom: 10px;">Test each new rule on purpose: a bad phone number, a Special Requests entry over 100 characters, then a completely valid form.</li>
+<li style="margin-bottom: 10px;">On the Confirmation page, confirm both new values show up, and find them in the address bar's query string too.</li>
+<li style="margin-bottom: 0;">When you're done testing, go back to the terminal and press Ctrl+C to stop the server.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 13: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 12 Lab phone and special requests validation</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace</h2>
+<p style="margin-bottom: 12px;">Same reminder as Part 1, and it matters just as much here. Don't leave this running.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 2 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 2 submission textbox in D2L and click Submit. Congratulations on finishing Module 12.</li>
+</ol>
+<p style="margin: 15px 0 0 0; color: #ffffff;">Running short on time? Turn in a rough draft, meaning any code you've written so far, by the due date so you don't get a zero. Then revise and resubmit by 4 PM on the Thursday of the last week of the semester.</p>
+</div>
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Lab instructions and code by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 0;">This lab is licensed under Creative Commons BY-NC-SA 4.0 and can be reused by other educators at nonprofits as long as attribution is given.</li>
+</ul>
+</div>
