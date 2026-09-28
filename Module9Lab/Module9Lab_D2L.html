@@ -1,0 +1,278 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 9 Lab: Creating a Web GUI with ADO.NET</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">Let's build a full-stack app that displays real Northwind data using ADO.NET.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction</h2>
+<p style="margin-bottom: 12px;">Today we'll build a web GUI that displays a list of customers from the Northwind database using ADO.NET, in a GitHub Codespace. Northwind is the same database Microsoft built for teaching SQL, based on a fictional gourmet food company.</p>
+<p style="margin: 0;">We'll use Razor Pages again, but this time the data comes from a real SQL Server database instead of a hardcoded list, using ADO.NET, the lower-level toolkit for talking to a database directly with SQL.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: Steps for Building a Full-Stack App</h2>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;"><strong>Set up the project</strong>, an ASP.NET Core Razor Pages app with a page ready to show data.</li>
+<li style="margin-bottom: 8px;"><strong>SqlConnection</strong> opens the connection to the database.</li>
+<li style="margin-bottom: 8px;"><strong>SqlCommand</strong> holds the SQL statement you want to run and executes it.</li>
+<li style="margin-bottom: 0;"><strong>SqlDataReader</strong> reads the rows that come back, one at a time.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: How ADO.NET, EF Core, and LINQ Fit Together</h2>
+<p style="margin-bottom: 10px;"><strong>LINQ</strong> is query syntax built into C# itself. It works on in-memory collections, like the Pokemon list from Module 8, and it also translates into SQL when used with EF Core. It's not a database tool by itself, it's just C# syntax.</p>
+<p style="margin-bottom: 10px;"><strong>EF Core</strong> (Entity Framework Core) is an ORM, an object relational mapper. It maps C# classes to database tables and translates LINQ queries into SQL for you, using ADO.NET internally to actually talk to the database.</p>
+<p style="margin: 0;"><strong>ADO.NET</strong> is the foundation layer. You write raw SQL yourself and manage the connection, command, and reader directly. It's more typing, but it gives you maximum control, which is exactly why we're learning it: once you understand what's happening underneath, EF Core stops feeling like magic.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Background: The Northwind Database ERD</h2>
+<img src="/content/2025/7428029-20275000469S/images/Northwind_Database_Relationship_Diagram_3083.jpg" alt="Northwind database ERD showing tables and relationships" style="max-width: 100%; border-radius: 8px; border: 1px solid #B2B4B2;">
+<p style="margin: 12px 0 0 0;">Think of this ERD as your roadmap. Use it to spell table and column names correctly while writing your SQL, same as Module 7.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start</h2>
+<p style="margin: 0;">You'll need your GitHub account and your one shared Codespace from the Module 1 Lab. Today we're also running a Docker container inside that Codespace to host SQL Server, so it may take a bit longer to get set up than usual. If you haven't signed up for the GitHub Student Developer Pack yet, this is still a good week to knock that out, on the <a rel="noopener" href="https://education.github.com/pack/join" style="color: #1976d2; text-decoration: underline;" target="_blank">Student Developer Pack signup page</a>.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Open the Module9Lab Folder</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in.</li>
+<li style="margin-bottom: 10px;">Click the hamburger menu, then <strong style="color: #59317C;">Codespaces</strong>, then click on the name of your existing Codespace to reopen it.</li>
+<li style="margin-bottom: 10px;">In the Explorer, expand the <strong style="color: #59317C;">Module9Lab</strong> folder, then the <strong style="color: #59317C;">Northwind</strong> project folder inside it. The project boilerplate, Bootstrap, and both nav links are already wired up in _Layout.cshtml, so you won't need to edit that file this lab.</li>
+<li style="margin-bottom: 0;">Open a terminal, and make sure you're inside the Northwind project folder before you continue.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Set Up the SQL Server Container</h2>
+<p style="margin-bottom: 12px;">We'll use Docker to run SQL Server in its own isolated container, right alongside your Codespace.</p>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Create the container:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;"><code>docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=P@ssw0rd" -p 1433:1433 --name sqlserver -d mcr.microsoft.com/mssql/server:2019-latest</code></div>
+<p style="margin: 8px 0 0 0; font-size: 0.95em; color: #707372;">If a popup asks to open a browser on port 1433, ignore it. That's a database server starting up, not a web server.</p>
+</li>
+<li style="margin-bottom: 10px;">Get a root shell inside the container so we can install a couple of tools:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px;"><code>docker exec -it --user root sqlserver bash</code></div>
+</li>
+<li style="margin-bottom: 10px;">Install the SQL Server command line tools, one command per line:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px;"><code>apt-get update<br>apt-get install -y mssql-tools unixodbc-dev</code></div>
+<p style="margin: 8px 0 0 0; font-size: 0.95em; color: #707372;">If you hit a license acceptance error, run <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev</code> instead.</p>
+</li>
+<li style="margin-bottom: 0;">Type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">exit</code> to leave the container's shell and return to your Codespace terminal.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Build the Northwind Database</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Create the empty database:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;"><code>docker exec -it sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P P@ssw0rd -Q "CREATE DATABASE Northwind"</code></div>
+</li>
+<li style="margin-bottom: 10px;">Download <a rel="noopener" href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou={orgUnitId}&amp;type=coursefile&amp;fileId=CreateNorthwind.sql" style="color: #1976d2; text-decoration: underline;" target="_blank">CreateNorthwind.sql</a>, then in the Explorer, right click in the empty space and choose <strong style="color: #59317C;">Upload</strong> to bring it into your Codespace. It needs to land in the repository root, alongside README.md, not inside a subfolder, or the next command won't find it.</li>
+<li style="margin-bottom: 10px;">Make sure you're in the folder containing CreateNorthwind.sql (use <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">cd ..</code> if you need to move up), then copy it into the container:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px;"><code>docker cp CreateNorthwind.sql sqlserver:/CreateNorthwind.sql</code></div>
+</li>
+<li style="margin-bottom: 10px;">Run the script to build and populate the database. Be patient, this can take a few minutes, and the only output you'll see is "Changed database context to Northwind."
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;"><code>docker exec -it sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P P@ssw0rd -i /CreateNorthwind.sql</code></div>
+</li>
+<li style="margin-bottom: 0;">Verify it worked:
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;"><code>docker exec -it sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P P@ssw0rd -d Northwind -Q "SELECT ProductName FROM Products"</code></div>
+</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Understand the Customer Page Files</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Customers.cshtml.cs</strong>. Notice the Customer class at the bottom is already written for you, it's just a data holder whose properties match the columns we're pulling from the Customers table. You won't touch that part.</p>
+<p style="margin: 0;">You will fill in OnGet in the CustomersModel class above it, that's where the actual ADO.NET code goes.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Write the ADO.NET Code</h2>
+<p style="margin-bottom: 12px;">Replace the TODO comment inside OnGet with this code:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;">using System.Data.SqlClient;
+
+string connectionString = "Server=localhost;Database=Northwind;User Id=sa;Password=P@ssw0rd;TrustServerCertificate=True;";
+
+using (SqlConnection connection = new SqlConnection(connectionString))
+{
+    connection.Open();
+    string sql = "SELECT CustomerID, CompanyName, ContactName, Country FROM Customers";
+    using (SqlCommand command = new SqlCommand(sql, connection))
+    {
+        using (SqlDataReader reader = command.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                Customers.Add(new Customer
+                {
+                    CustomerID = reader.GetString(0),
+                    CompanyName = reader.GetString(1),
+                    ContactName = reader.GetString(2),
+                    Country = reader.GetString(3)
+                });
+            }
+        }
+    }
+}</pre>
+</div>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin: 0;">Notice the pattern: open a connection, wrap a SQL string in a command, run the command with ExecuteReader, and loop through the reader one row at a time with while (reader.Read()). You'll reuse this exact pattern in Part 2.</p>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Build the Customer Table</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Customers.cshtml</strong> and replace the placeholder paragraph with this table:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+<pre style="margin: 0;">&lt;table class="table"&gt;
+    &lt;thead&gt;&lt;tr&gt;
+        &lt;th&gt;Customer ID&lt;/th&gt;
+        &lt;th&gt;Company Name&lt;/th&gt;
+        &lt;th&gt;Contact Name&lt;/th&gt;
+        &lt;th&gt;Country&lt;/th&gt;
+    &lt;/tr&gt;&lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var customer in Model.Customers)
+        {
+            &lt;tr&gt;
+                &lt;td&gt;@customer.CustomerID&lt;/td&gt;
+                &lt;td&gt;@customer.CompanyName&lt;/td&gt;
+                &lt;td&gt;@customer.ContactName&lt;/td&gt;
+                &lt;td&gt;@customer.Country&lt;/td&gt;
+            &lt;/tr&gt;
+        }
+    &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Run the Application</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab, hover over the forwarded address, and click the globe icon to open your app.</li>
+<li style="margin-bottom: 0;">Click the <strong style="color: #59317C;">Customers</strong> link in the nav bar and confirm you see a real table of Northwind customers, pulled straight from your SQL Server container.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 9 Lab Customers page</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace Before You Move On</h2>
+<p style="margin-bottom: 12px;">This is the step people skip, and it's the one that causes the most trouble. A Codespace left running eats into your monthly free hours whether you're touching the keyboard or not, and running out mid-semester means you can't work on labs until your hours reset. Take the thirty seconds now.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 1 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 1 submission textbox in D2L and click Submit. You're not done yet, Part 2 is required too.</li>
+</ol>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">You'll build a whole second page yourself this time, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<p style="margin: 0;">The Products nav link is already sitting in your layout, pointing at a page that doesn't exist yet. In Part 1 you filled in a page that was already stubbed out for you. Now you'll create both files yourself and follow the exact same ADO.NET pattern to display data from the Products table instead of Customers. This is required, not optional, since building the whole page yourself is what actually builds the skill.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Reopen Your Codespace and Restart Your Container</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a>, sign in, and reopen your existing Codespace, same as Step 1.</li>
+<li style="margin-bottom: 0;">If your SQL Server container isn't running anymore, start it back up with <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">docker start sqlserver</code>. If <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">docker ps</code> already shows it running, you can skip this.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 10: Create Products.cshtml.cs</h2>
+<p style="margin-bottom: 12px;">In the Explorer, right click the Pages folder and choose <strong style="color: #59317C;">New File</strong>. Name it <strong style="color: #59317C;">Products.cshtml.cs</strong>.</p>
+<p style="margin-bottom: 12px;">Following the exact same pattern as Customers.cshtml.cs from Steps 4 and 5, write a ProductsModel class with a List of a new Product class, an OnGet method that connects to the database and fills that list, and the Product class itself with properties for ProductID, ProductName, and UnitPrice.</p>
+<p style="margin: 0;">Your SQL statement should be <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">SELECT ProductID, ProductName, UnitPrice FROM Products</code>. ProductID and UnitPrice are numbers, so read them with <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">reader.GetInt32(0)</code> and <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">reader.GetDecimal(2)</code> instead of GetString.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 11: Create Products.cshtml</h2>
+<p style="margin: 0;">Right click the Pages folder again and create <strong style="color: #59317C;">Products.cshtml</strong>. Following the exact same table pattern as Customers.cshtml from Step 6, build a table with columns for Product ID, Product Name, and Unit Price, looping through Model.Products.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 12: Run and Test</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab and click the globe icon to open your app.</li>
+<li style="margin-bottom: 0;">Click the <strong style="color: #59317C;">Products</strong> link in the nav bar and confirm you see a real table of Northwind products with their prices.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 13: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 9 Lab Products page</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace</h2>
+<p style="margin-bottom: 12px;">Same reminder as Part 1, and it matters just as much here. Don't leave this running.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 2 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 2 submission textbox in D2L and click Submit. Congratulations on finishing Module 9.</li>
+</ol>
+</div>
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Northwind ERD from Microsoft Learn, used with permission.</li>
+<li style="margin-bottom: 8px;">Lab instructions and code by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 0;">This lab is licensed under Creative Commons BY-NC-SA 4.0 and can be reused by other educators at nonprofits as long as attribution is given.</li>
+</ul>
+</div>
