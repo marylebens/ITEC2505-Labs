@@ -1,0 +1,38 @@
+@page
+@model RubberDuckStore.Pages.RubberDucksModel
+@{
+    ViewData["Title"] = "Rubber Ducks";
+}
+<h1>Rubber Ducks for Debugging</h1>
+
+<!-- READ: pick a duck and view its details. This part is already
+     written, study it before building the forms below. -->
+<form method="post">
+    <select asp-for="SelectedDuckId" asp-items="Model.DuckList" class="form-control">
+        <option value="">Select a Duck</option>
+    </select>
+    <button type="submit" class="btn btn-primary mt-2">Show Duck</button>
+</form>
+
+@if (Model.SelectedDuck != null)
+{
+    <div class="mt-4">
+        <h2>@Model.SelectedDuck.Name</h2>
+        <p>@Model.SelectedDuck.Description</p>
+        <p>Price: $@Model.SelectedDuck.Price.ToString("F2")</p>
+        <img src="/images/@Model.SelectedDuck.ImageFileName" alt="@Model.SelectedDuck.Name" style="max-width: 300px;" />
+    </div>
+}
+
+<!-- TODO Step 8 (Part 2): Add a form here for creating a new duck,
+     with fields for Name, Description, Price, and ImageFileName, and
+     a submit button using asp-page-handler="Add". -->
+
+<!-- TODO Step 9 (Part 2): Add a form here for updating a duck's price,
+     with a dropdown to pick the duck (asp-items="Model.DuckList" again
+     works fine) and a number field for the new price, and a submit
+     button using asp-page-handler="UpdatePrice". -->
+
+<!-- TODO Step 10 (Part 2): Add a form here for deleting a duck, with a
+     dropdown to pick the duck and a submit button using
+     asp-page-handler="Delete". -->
