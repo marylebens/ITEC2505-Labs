@@ -1,0 +1,266 @@
+<div style="background-color: #59317C; padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; margin-bottom: 8px; font-size: 2.2em; font-weight: 600;">Module 6 Lab: Creating a Teen Hangout Web App</h1>
+<p style="color: #ffffff; margin: 0; font-size: 1.1em;">Let's put classes, arrays, loops, and conditionals to work together in a real web page.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.5em;">Introduction <img src="/content/2025/7428029-20275000469S/OIG2.jpg" alt="Teens hanging out and socializing" style="width: 130px; height: 130px; float: right; margin-left: 15px; border-radius: 8px;"></h2>
+<p style="margin-bottom: 12px;">Today we'll build a "Teen Hangout" site, a safe, fun spot for teens to socialize online. This lab pulls together everything you've learned so far: C# classes, arrays, loops, conditionals, and a web based GUI using Razor Pages. Get ready to put it all to work.</p>
+<p style="margin-bottom: 10px;"><strong>In this lab, you will:</strong></p>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Create C# classes to represent teen users and their posts.</li>
+<li style="margin-bottom: 8px;">Use arrays to store multiple users and posts.</li>
+<li style="margin-bottom: 8px;">Use loops to display that data.</li>
+<li style="margin-bottom: 8px;">Use a conditional to filter content.</li>
+<li style="margin-bottom: 0;">Build a Razor Pages interface to display it all.</li>
+</ul>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Before You Start <img src="/content/2025/7428029-20275000469S/image-octocat-4.jpg" alt="GitHub Octocat mascot" style="width: 90px; height: 90px; float: right; margin-left: 15px; border-radius: 8px;"></h2>
+<p style="margin: 0;">You'll need your GitHub account and your one shared Codespace from the Module 1 Lab. If you haven't finished that lab yet, go do that first, then come back here. If you haven't signed up for the GitHub Student Developer Pack yet, this is still a good week to knock that out, on the <a rel="noopener" href="https://education.github.com/pack/join" style="color: #1976d2; text-decoration: underline;" target="_blank">Student Developer Pack signup page</a>.</p>
+</div>
+
+<div style="background-color: #3677A7; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 1: In Class</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">Everything below is what we'll build together in class.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 1: Reopen Your Codespace and Open the Module6Lab Folder</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a> and sign in.</li>
+<li style="margin-bottom: 10px;">Click the hamburger menu, then <strong style="color: #59317C;">Codespaces</strong>, then click on the name of your existing Codespace to reopen it. You've already got the one Codespace you'll use all semester.</li>
+<li style="margin-bottom: 10px;">In the Explorer, expand the <strong style="color: #59317C;">Module6Lab</strong> folder, then the <strong style="color: #59317C;">Module6Lab</strong> project folder inside it. The project boilerplate, including Bootstrap, is already wired up, so you can jump straight to the C#.</li>
+<li style="margin-bottom: 0;">Open a terminal, and make sure you're inside the inner Module6Lab project folder before you continue.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 2: Build the User Class</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">User.cs</strong> and replace the TODO comment with this code:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">public string Username { get; set; }
+public int Age { get; set; }
+public string FavoriteColor { get; set; }
+
+public User(string username, int age, string favoriteColor)
+{
+    Username = username;
+    Age = age;
+    FavoriteColor = favoriteColor;
+}</pre>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 3: Build the Post Class</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Post.cs</strong> and replace the TODO comment with this code:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">public string Username { get; set; }
+public string Content { get; set; }
+public int Likes { get; set; }
+
+public Post(string username, string content, int likes)
+{
+    Username = username;
+    Content = content;
+    Likes = likes;
+}</pre>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 4: Build the Index Page Model</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Index.cshtml.cs</strong>. Replace the first TODO comment with:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px;"><code>public User[] Users { get; set; }<br>public Post[] Posts { get; set; }</code></div>
+<p style="margin-bottom: 12px;">Now replace the second TODO comment, inside OnGet, with this code, which creates an array of users and an array of posts:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">// Create array of users
+Users = new User[]
+{
+    new User("MusicLover", 15, "Purple"),
+    new User("GamerGirl", 16, "Red"),
+    new User("BookwormBen", 15, "Yellow")
+};
+
+// Create array of posts
+Posts = new Post[]
+{
+    new Post("GamerGirl", "Anyone want to play online later?", 30),
+    new Post("BookwormBen", "Reading the best book ever!", 15),
+    new Post("MusicLover", "Concert next week! So excited!", 22)
+};</pre>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 5: Build the Index Page</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Index.cshtml</strong> and replace the placeholder paragraph with this code:</p>
+<div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">&lt;div class="container mt-4"&gt;
+    &lt;h1 class="text-center text-primary"&gt;Teen Hangout&lt;/h1&gt;
+    &lt;p class="text-center"&gt;Your virtual space to connect!&lt;/p&gt;
+
+    &lt;div class="card my-4"&gt;
+        &lt;div class="card-body"&gt;
+            &lt;h2&gt;Our Members&lt;/h2&gt;
+            @for (int i = 0; i &lt; Model.Users.Length; i++)
+            {
+                &lt;div class="alert alert-secondary"&gt;
+                    &lt;strong&gt;@Model.Users[i].Username&lt;/strong&gt; -
+                    Age: @Model.Users[i].Age -
+                    Favorite Color: @Model.Users[i].FavoriteColor
+                &lt;/div&gt;
+            }
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="card my-4"&gt;
+        &lt;div class="card-body"&gt;
+            &lt;h2&gt;Recent Posts&lt;/h2&gt;
+            @for (int i = 0; i &lt; Model.Posts.Length; i++)
+            {
+                &lt;div class="alert alert-info"&gt;
+                    &lt;strong&gt;@Model.Posts[i].Username&lt;/strong&gt;
+                    &lt;p&gt;@Model.Posts[i].Content&lt;/p&gt;
+                    &lt;small&gt;Likes: @Model.Posts[i].Likes&lt;/small&gt;
+                &lt;/div&gt;
+            }
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 6: Run and Test Your Application</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab, hover over the forwarded address, and click the globe icon to open your app.</li>
+<li style="margin-bottom: 10px;">Confirm you see a list of members and a list of recent posts.</li>
+<li style="margin-bottom: 0;">When you're done testing, go back to the terminal and press Ctrl+C to stop the server.</li>
+</ol>
+<div style="background-color: #eaf5fc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #489FDF;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Refresher: what's happening on the server</p>
+<p style="margin: 0;">Every time your browser loads this page, the web server runs OnGet, builds the Users and Posts arrays fresh in memory, then hands the finished HTML back to your browser through the URL and port you clicked in the PORTS tab. Nothing is saved anywhere. Refresh the page and OnGet runs all over again with the same sample data.</p>
+</div>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 7: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 6 Lab Teen Hangout</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace Before You Move On</h2>
+<p style="margin-bottom: 12px;">This is the step people skip, and it's the one that causes the most trouble. A Codespace left running eats into your monthly free hours whether you're touching the keyboard or not, and running out mid-semester means you can't work on labs until your hours reset. Take the thirty seconds now.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 1 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 1 submission textbox in D2L and click Submit. You're not done yet, Part 2 is required too.</li>
+</ol>
+</div>
+
+<hr style="border: none; height: 2px; background-color: #B2B4B2; margin: 30px 0; border-radius: 2px;">
+
+<div style="background-color: #93328E; padding: 18px 20px; border-radius: 10px; margin-bottom: 10px;">
+<h1 style="color: #ffffff; margin: 0; font-size: 1.7em;">Part 2: At Home</h1>
+<p style="margin: 4px 0 0 0; color: #ffffff;">You'll write your own loop and your own conditional this time, using the exact same skills from Part 1.</p>
+</div>
+
+<div style="background-color: #f6ecf5; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+<p style="margin: 0;">In Part 1 you typed loops that were already written out for you. Now you'll write your own version of a loop with a conditional filter, plus a loop that adds things up, both applied to the same app. This is required, not optional, since writing the code yourself is what actually builds the skill.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 8: Reopen Your Codespace</h2>
+<p style="margin: 0;">Go to <a rel="noopener" href="https://github.com/" style="color: #1976d2; text-decoration: underline;">GitHub's home page</a>, sign in, and reopen your existing Codespace, same as Step 1.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 9: Write Your Own Filtered Loop</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Index.cshtml</strong>. Add a new card below the Recent Posts card, following the same card, card-body, and h2 structure, titled "Popular Posts (20+ Likes)".</p>
+<p style="margin: 0;">Inside that card, write your own for loop, following the same pattern as the Recent Posts loop above it, that walks through Model.Posts. Add an if statement inside the loop, following the same pattern from Module 3, that only displays a post, using the alert alert-success class instead of alert-info, when that post's Likes is 20 or higher.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 10: Write Your Own Total Likes Loop</h2>
+<p style="margin-bottom: 12px;">Open <strong style="color: #59317C;">Pages/Index.cshtml.cs</strong>. Add a new property called <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">TotalLikes</code>, an int.</p>
+<p style="margin: 0;">Inside OnGet, after the Posts array is created, write your own loop, following the same for loop pattern from Module 4's while loop and this module's for loops, that adds up the Likes from every post in the Posts array and stores the total in TotalLikes.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 11: Display the Total</h2>
+<p style="margin: 0;">Back in Index.cshtml, add a paragraph after your Popular Posts card that displays TotalLikes, something like "Total likes across all posts: @Model.TotalLikes".</p>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ADCB00;">
+<p style="margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #59317C;">Before You Run It: Predict the Output</p>
+<p style="margin: 0;">Using the sample posts from Step 4 (30, 15, and 22 likes), predict which posts will show up in your Popular Posts card, and predict what TotalLikes will be. Then check your predictions in Step 12.</p>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 12: Run, Test, and Check Your Predictions</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">In the terminal, type <code style="background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px;">dotnet run</code> and press Enter.</li>
+<li style="margin-bottom: 10px;">Open the PORTS tab and click the globe icon to open your app.</li>
+<li style="margin-bottom: 10px;">Confirm your Popular Posts card and TotalLikes match your predictions from Step 11.</li>
+<li style="margin-bottom: 0;">When you're done testing, go back to the terminal and press Ctrl+C to stop the server.</li>
+</ol>
+</div>
+
+<div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #B2B4B2;">
+<h2 style="color: #59317C; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #ADCB00; font-size: 1.4em;">Step 13: Commit and Push Your Work</h2>
+<ol style="padding-left: 22px;">
+<li style="margin-bottom: 10px;">Click the <strong style="color: #59317C;">Source Control</strong> icon, or press Ctrl+Shift+G.</li>
+<li style="margin-bottom: 10px;">Type a commit message, something like <strong style="color: #59317C;">Module 6 Lab popular posts and total likes</strong>.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Commit</strong>, then click <strong style="color: #59317C;">Sync Changes</strong> to push it up to your fork on GitHub.</li>
+</ol>
+</div>
+
+<div style="background-color: #f5f8e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ADCB00;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.4em;">Stop Your Codespace</h2>
+<p style="margin-bottom: 12px;">Same reminder as Part 1, and it matters just as much here. Don't leave this running.</p>
+<ol style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 10px;">Click the hamburger menu in the upper left corner.</li>
+<li style="margin-bottom: 10px;">Click <strong style="color: #59317C;">Codespaces</strong>.</li>
+<li style="margin-bottom: 10px;">Find your Codespace in the list.</li>
+<li style="margin-bottom: 10px;">Click the three dots next to it.</li>
+<li style="margin-bottom: 0;">Click <strong style="color: #59317C;">Stop codespace</strong>.</li>
+</ol>
+</div>
+
+<div style="background-color: #3677A7; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+<h1 style="color: #ffffff; margin-top: 0; font-size: 1.6em;">Submit Part 2 of Your Lab</h1>
+<ol style="padding-left: 22px; color: #ffffff;">
+<li style="margin-bottom: 10px;">Go to your forked repository on GitHub.com.</li>
+<li style="margin-bottom: 10px;">Click inside the browser address bar to highlight the full URL.</li>
+<li style="margin-bottom: 10px;">Copy the URL.</li>
+<li style="margin-bottom: 0;">Paste the URL into the Part 2 submission textbox in D2L and click Submit. Congratulations on finishing Module 6.</li>
+</ol>
+</div>
+
+<div style="background-color: #f4f4f4; padding: 20px; border-radius: 10px;">
+<h2 style="color: #59317C; margin-top: 0; font-size: 1.3em;">Credits</h2>
+<ul style="padding-left: 22px; margin-bottom: 0;">
+<li style="margin-bottom: 8px;">Lab instructions and code by Dr. Mary Lebens.</li>
+<li style="margin-bottom: 0;">This lab is licensed under Creative Commons BY-NC-SA 4.0 and can be reused by other educators at nonprofits as long as attribution is given.</li>
+</ul>
+</div>
